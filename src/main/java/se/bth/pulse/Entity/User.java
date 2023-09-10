@@ -17,7 +17,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    private String password; //salted and hashed with scrypt
+    private String password; //salted and hashed with bcrypt
 
     private String firstname;
 
@@ -27,7 +27,7 @@ public class User {
 
     private Boolean enabled;
 
-    @OneToOne
+    @ManyToOne
     private Role role;
 
     @ManyToMany(mappedBy = "users")
