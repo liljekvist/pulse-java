@@ -19,6 +19,7 @@ public class User {
     @Getter
     private Integer id;
 
+    @Getter
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -56,13 +57,13 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return email;
-    }
+    //public String getUsername() {
+    //    return email;
+    //}
 
-    public void setUsername(String email) {
-        this.email = email;
-    }
+    //public void setUsername(String email) {
+    //    this.email = email;
+    //}
 
     public void setPhonenr(String phonenr) {
         this.phonenr = phonenr;

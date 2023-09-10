@@ -38,8 +38,8 @@ public class SetupRestController {
         return true;
     }
 
-    @PostMapping(value = "/api/setup/configure_admin_account")
-    public Boolean configureAdminAccount(@RequestParam("email") String email, @RequestParam("password") String password) {
+    @PostMapping(value = "/api/setup/configure_admin_account", produces = "application/json")
+    public User configureAdminAccount(@RequestParam("email") String email, @RequestParam("password") String password) {
         Role admin_role = new Role();
         admin_role.setName("admin");
         admin_role.setPremissions("rwx");
@@ -52,7 +52,7 @@ public class SetupRestController {
         admin.setRole(admin_role);
         userRepository.save(admin);
 
-        return true;
+        return admin;
     }
 
 }

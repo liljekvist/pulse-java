@@ -37,12 +37,16 @@ public class ApplicationSecurity {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(antMatcher("/api/setup/**"), antMatcher("/swagger-ui/**"), antMatcher("/swagger-ui"), antMatcher("/error"), mvc.pattern("/setup")).permitAll()
+                        .requestMatchers(antMatcher("/api/setup/**"), antMatcher("/swagger-ui/**"), antMatcher("/swagger-ui"), antMatcher("/error*"), antMatcher("/login*"), antMatcher("/WEB-INF/jsp/public/**"), mvc.pattern("/setup")).permitAll()
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/", true)
+                )
                 .httpBasic(withDefaults());
 
 
