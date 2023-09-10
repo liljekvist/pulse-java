@@ -33,7 +33,7 @@ public class SetupController {
     @GetMapping(value = "/api/setup/is_setup_done")
     public Boolean getSetupSetting() {
         List<Setting> result = settingRepository.findByName("setup_done");
-        return !(result.size() == 0);
+        return !(result.isEmpty());
     }
 
     @GetMapping(value = "/api/setup/configure_settings")
@@ -56,16 +56,12 @@ public class SetupController {
 
         User admin = new User();
         admin.setEmail(email);
-        admin.setPassword(passwordEncoder().encode(password));
+        admin.setPassword(new BCryptPasswordEncoder().encode(password));
         admin.setEnabled(true);
         admin.setRole(admin_role);
         userRepository.save(admin);
 
         return true;
-    }
-    @Autowired
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }
