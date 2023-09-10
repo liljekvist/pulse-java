@@ -1,7 +1,12 @@
 package se.bth.pulse.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+import java.util.List;
+import java.util.Set;
+
+@Getter
 @Entity(name = "Project")
 @Table(name = "Project")
 public class Project {
@@ -11,19 +16,24 @@ public class Project {
 
     private String name;
 
-    public Integer getId() {
-        return id;
-    }
+    private String description;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<User> users;
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
