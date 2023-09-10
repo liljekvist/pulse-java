@@ -3,7 +3,6 @@ package se.bth.pulse.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter

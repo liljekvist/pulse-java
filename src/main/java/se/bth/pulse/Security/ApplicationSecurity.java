@@ -1,9 +1,7 @@
 package se.bth.pulse.Security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,8 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import se.bth.pulse.Service.UserDetailsServiceImpl;
-
-import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -37,7 +33,16 @@ public class ApplicationSecurity {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(antMatcher("/api/setup/**"), antMatcher("/swagger-ui/**"), antMatcher("/swagger-ui"), antMatcher("/error*"), antMatcher("/login*"), antMatcher("/WEB-INF/jsp/public/**"), mvc.pattern("/setup")).permitAll()
+                        .requestMatchers(
+                                antMatcher("/api/setup/**"),
+                                antMatcher("/swagger-ui/**"),
+                                antMatcher("/swagger-ui"),
+                                antMatcher("/error*"),
+                                antMatcher("/login*"),
+                                antMatcher("/WEB-INF/jsp/public/**"),
+                                mvc.pattern("/setup")
+                        )
+                        .permitAll()
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
@@ -73,7 +78,7 @@ public class ApplicationSecurity {
 
     @Bean
     @Primary
-    protected AuthenticationManagerBuilder configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected AuthenticationManagerBuilder configure(AuthenticationManagerBuilder auth) {
         return auth.authenticationProvider(authenticationProvider());
     }
 }

@@ -6,12 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
-
 @Controller
 public class IndexController {
     @GetMapping("/")
-    public String showIndex(Model model, Authentication authentication, HttpServletRequest request) {
+    public String showIndex(Model model, Authentication authentication) {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("role", authentication.getAuthorities().toString());
         return "index";

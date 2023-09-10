@@ -2,13 +2,7 @@ package se.bth.pulse.Entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -37,7 +31,7 @@ public class User {
     private Role role;
 
     @ManyToMany(mappedBy = "users")
-    private List<Project> projects;
+    private Set<Project> projects;
 
     public void setId(Integer id) {
         this.id = id;
@@ -76,7 +70,7 @@ public class User {
         return role.getName();
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 }
