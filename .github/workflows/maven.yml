@@ -29,7 +29,7 @@ jobs:
         cache: maven
 
     - name: Docker Compose Action
-      uses: isbang/compose-action@master
+      uses: isbang/compose-action@v1.5.1
       with:
         compose-file: "./compose.yaml"
 
