@@ -29,6 +29,7 @@ public class ApplicationSecurity {
         httpSecurity
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/setup/**").permitAll()
+                        .requestMatchers("/setup").permitAll()
 
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/swagger-ui").permitAll()
