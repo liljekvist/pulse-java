@@ -27,6 +27,12 @@ jobs:
         java-version: '20'
         distribution: 'temurin'
         cache: maven
+
+    - name: Docker Compose Action
+      uses: isbang/compose-action@v1.5.1
+      with:
+        compose-file: "./compose.yaml"
+
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
