@@ -27,13 +27,6 @@ public class SetupRestController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-
-    @GetMapping(value = "/api/setup/is_setup_done")
-    public Boolean getSetupSetting() {
-        List<Setting> result = settingRepository.findByName("setup_done");
-        return !(result.isEmpty());
-    }
-
     @GetMapping(value = "/api/setup/configure_settings")
     public Boolean configureSetting() {
         Setting setup = new Setting();

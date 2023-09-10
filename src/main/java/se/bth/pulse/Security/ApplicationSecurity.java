@@ -14,32 +14,38 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import se.bth.pulse.Service.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class ApplicationSecurity {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
+        return new MvcRequestMatcher.Builder(introspector);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvc) throws Exception {
         httpSecurity
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/setup/**").permitAll()
-                        .requestMatchers("/setup").permitAll()
-
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/swagger-ui").permitAll()
-
-                        .anyRequest().authenticated()
-
-                )
                 .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(antMatcher("/api/setup/**"), antMatcher("/swagger-ui/**"), antMatcher("/swagger-ui"), antMatcher("/error"), mvc.pattern("/setup")).permitAll()
+                )
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().authenticated()
+                )
                 .formLogin(withDefaults())
                 .httpBasic(withDefaults());
+
+
         return httpSecurity.build();
     }
 

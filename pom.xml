@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pulse</name>
 	<description>Pulse website</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>20</java.version>
 	</properties>
@@ -71,6 +72,21 @@
 		  	<groupId>org.yaml</groupId>
 		  	<artifactId>snakeyaml</artifactId>
 		  	<version>[2.0,)</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 
