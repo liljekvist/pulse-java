@@ -1,5 +1,8 @@
 package se.bth.pulse.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -15,15 +18,20 @@ public class User {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    @CsvBindByName(column = "email")
     private String email;
 
-    private String password; //salted and hashed with bcrypt
-
+    @CsvBindByName(column = "firstname")
     private String firstname;
 
+    @CsvBindByName(column = "lastname")
     private String lastname;
 
+    @CsvBindByName(column = "phonenr")
     private String phonenr;
+
+
+    private String password; //salted and hashed with bcrypt
 
     private Boolean enabled;
 

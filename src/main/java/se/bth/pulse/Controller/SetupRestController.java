@@ -35,6 +35,12 @@ public class SetupRestController {
 
         settingRepository.save(setup);
 
+        // setup default role
+        Role default_role = new Role();
+        default_role.setName("default");
+        default_role.setPremissions("r");
+        roleRepository.save(default_role);
+
         return true;
     }
 

@@ -16,12 +16,10 @@
 <article>
     <i>please drag and drop a file</i>
     <div id="holder"></div>
-    <p id="help_text"></p>
+    <p id="help_text" style="color: red;"></p>
     <p id="status">File API & FileReader API not supported</p>
 
     <input type="button" id="submit" name="Submit" value="Submit">
-
-
 </article>
 </body>
 </html>
@@ -58,6 +56,19 @@
         reader.onload = function(event) {
             holder.innerText = event.target.result;
             file_data = event.target.result;
+            $.ajax({
+                url: "/api/file/check",
+                type: "POST",
+                data: file_data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    help.innerText = "";
+                },
+                error: function (data) {
+                    help.innerText = data.responseText;
+                }
+            });
         };
         console.log(file);
         reader.readAsText(file);
