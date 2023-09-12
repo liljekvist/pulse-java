@@ -9,6 +9,9 @@
 <html>
 <head>
     <title>Index</title>
+    <jsp:include page="./include/header.jsp" >
+        <jsp:param name="role" value="${role}" />
+    </jsp:include>
 </head>
 <body>
 User: ${username} <br>

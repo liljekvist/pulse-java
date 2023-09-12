@@ -41,6 +41,7 @@ public class ApplicationSecurity {
                                 antMatcher("/login*"),
                                 antMatcher("/WEB-INF/jsp/public/**"),
                                 antMatcher("/WEB-INF/jsp/include/**"),
+                                antMatcher("/WEB-INF/public/**"),
                                 mvc.pattern("/setup")
                         )
                         .permitAll()
