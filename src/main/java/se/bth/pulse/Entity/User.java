@@ -30,7 +30,6 @@ public class User {
     @CsvBindByName(column = "phonenr")
     private String phonenr;
 
-
     private String password; //salted and hashed with bcrypt
 
     private Boolean enabled;
@@ -72,7 +71,6 @@ public class User {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
 
     public String getRole() {
         return role.getName();
