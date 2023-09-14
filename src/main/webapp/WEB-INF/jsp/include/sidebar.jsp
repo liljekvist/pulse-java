@@ -1,4 +1,4 @@
-<%--
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: mikae
   Date: 2023-09-14
@@ -15,20 +15,24 @@
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                    <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("start.jsp")) { %> active <% } %>" aria-current="page" href="${pageContext.request.contextPath}/">
                         <svg class="bi"><use xlink:href="#house-fill"/></svg>
                         Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
+                    <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("reports.jsp")) { %> active <% } %>" href="${pageContext.request.contextPath}/reports">
                         <svg class="bi"><use xlink:href="#graph-up"/></svg>
                         Reports
                     </a>
                 </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex align-items-left px-3 gap-2 mt-4 mb-1 ml0-m text-body-secondary text-uppercase">
+            <% if(request.getParameter("role").contains("admin")) { %>
+
+            <hr class="my-3">
+
+            <h6 class="sidebar-heading d-flex align-items-left px-3 gap-2 mt-2 mb-1 ml0-m text-body-secondary text-uppercase">
                 <svg class="bi"><use xlink:href="#door-closed"/></svg>
                 <span>Admin</span>
             </h6>
@@ -36,28 +40,24 @@
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi"><use xlink:href="#door-closed"/></svg>
-                        Current month
+                        User magament
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-                        Last quarter
+                        Project magament
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-                        Social engagement
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                        <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-                        Year-end sale
+                        Report magament
                     </a>
                 </li>
             </ul>
+
+            <% } %>
 
             <hr class="my-3">
 

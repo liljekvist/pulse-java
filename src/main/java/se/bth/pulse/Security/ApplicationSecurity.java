@@ -52,7 +52,7 @@ public class ApplicationSecurity {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/", false)
                 )
                 .httpBasic(withDefaults());
 
