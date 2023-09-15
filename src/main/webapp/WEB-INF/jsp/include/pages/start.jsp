@@ -12,8 +12,6 @@
     </div>
 
     <h2>Start page</h2>
-    Path: <%= request.getRequestURL().toString() %> <br>
-    User: ${username} <br>
-    Auth: ${role} <br>
+
 </main>
 

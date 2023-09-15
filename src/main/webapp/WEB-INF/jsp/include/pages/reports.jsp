@@ -12,8 +12,6 @@
     </div>
 
     <h2>Your reports</h2>
-    User: ${username} <br>>
-    Auth: ${role}
     <div class="table-responsive small">
         <table class="table table-striped table-sm">
             <thead>
