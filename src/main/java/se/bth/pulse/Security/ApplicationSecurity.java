@@ -34,15 +34,25 @@ public class ApplicationSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
+                                mvc.pattern("/admin/**")
+                        )
+                        .hasAuthority("admin")
+                )
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(
                                 antMatcher("/api/setup/**"),
                                 antMatcher("/swagger-ui/**"),
                                 antMatcher("/swagger-ui"),
                                 antMatcher("/error*"),
-                                antMatcher("/login*"),
+                                antMatcher("/login"),
                                 antMatcher("/WEB-INF/jsp/public/**"),
                                 antMatcher("/WEB-INF/jsp/include/**"),
+                                antMatcher("/WEB-INF/jsp/include/pages/**"),
                                 antMatcher("/WEB-INF/public/**"),
-                                mvc.pattern("/setup")
+                                antMatcher("/public/css/**"),
+                                antMatcher("/public/js/**"),
+                                mvc.pattern("/setup"),
+                                mvc.pattern("/login")
                         )
                         .permitAll()
                 )

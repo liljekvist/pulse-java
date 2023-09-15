@@ -12,6 +12,6 @@ public class ReportsController {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("role", authentication.getAuthorities().toString());
         model.addAttribute("content", "reports.jsp");
-        return "index";
+        return "public/index";
     }
 }

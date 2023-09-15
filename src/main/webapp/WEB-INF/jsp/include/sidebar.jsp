@@ -38,7 +38,7 @@
             </h6>
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
+                    <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("user-admin.jsp") || request.getParameter("content").equals("file.jsp")) { %> active <% } %>" href="${pageContext.request.contextPath}/admin/users">
                         <svg class="bi"><use xlink:href="#door-closed"/></svg>
                         User magament
                     </a>

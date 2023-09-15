@@ -1,28 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-    <title>file test</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://malsup.github.io/jquery.form.js"></script>
 
-    <style>
-        #holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px auto;}
-        #holder.hover { border: 10px dashed #333; }
-    </style>
+<style>
+    #holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px auto;}
+    #holder.hover { border: 10px dashed #333; }
+</style>
 
-</head>
-<body>
-<article>
-    <i>please drag and drop a file</i>
-    <div id="holder"></div>
-    <p id="help_text" style="color: red;"></p>
-    <p id="status">File API & FileReader API not supported</p>
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">User Management</h1>
+    </div>
 
-    <input type="button" id="submit" name="Submit" value="Submit">
-</article>
-</body>
-</html>
+    <article>
+        <i>please drag and drop a file</i>
+        <div id="holder"></div>
+        <p id="help_text" style="color: red;"></p>
+        <p id="status">File API & FileReader API not supported</p>
+
+        <input type="button" id="submit" name="Submit" value="Submit">
+    </article>
+</main>
 <script>
     let file = null,
         file_data = null;
