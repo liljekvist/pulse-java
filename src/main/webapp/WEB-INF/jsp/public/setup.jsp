@@ -29,12 +29,16 @@
 <script>
     //submit form without redirect
     $(document).ready(function() {
+        const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
         $("#submitButton").click(function(e) {
             e.preventDefault();
             $.ajax({
                 type: "POST",
                 url: "/api/setup/configure_admin_account",
                 data: $("#accountForm").serialize(),
+                headers: {
+                    'X-XSRF-TOKEN': csrfToken
+                },
                 success: function(data)
                 {
                     alert(data);
@@ -47,6 +51,9 @@
                 type: "GET",
                 url: "/api/setup/configure_settings",
                 data: $("#finishForm").serialize(),
+                headers: {
+                    'X-XSRF-TOKEN': csrfToken
+                },
                 success: function(data)
                 {
                     //redirect to login page

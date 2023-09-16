@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import se.bth.pulse.Service.UserDetailsServiceImpl;
@@ -31,7 +32,11 @@ public class ApplicationSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvc) throws Exception {
         httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf((csrf) -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers(antMatcher("/api/setup/**")) // csrf disabled for setup
+                        .ignoringRequestMatchers(antMatcher("/login")) // csrf disabled for login
+                )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 mvc.pattern("/admin/**")
