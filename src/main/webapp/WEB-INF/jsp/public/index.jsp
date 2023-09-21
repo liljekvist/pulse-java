@@ -16,6 +16,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="generator" content="">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>Pulse Dashboard</title>
 
 <%--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">  --%>
@@ -37,7 +39,7 @@
 <jsp:include page="../include/color-mode.jsp" />
 
 
-<% if(!(request.getAttribute("content") == "signin.jsp")) { %>
+<% if(!(request.getAttribute("content") == "signin.jsp" || request.getAttribute("content") == "setup.jsp"))  { %>
 
 <jsp:include page="../include/icons.jsp" />
 
@@ -51,7 +53,7 @@
 <div class="container-fluid">
     <div class="row">
 
-        <% if(!(request.getAttribute("content") == "signin.jsp")) { %>
+        <% if(!(request.getAttribute("content") == "signin.jsp" || request.getAttribute("content") == "setup.jsp")) { %>
         <jsp:include page="../include/sidebar.jsp">
             <jsp:param name="role" value="${role}" />
             <jsp:param name="content" value="${content}" />

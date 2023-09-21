@@ -3,11 +3,13 @@ package se.bth.pulse.Controller;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,9 +36,11 @@ public class FileRestController {
     UserRepository userRepository;
     RoleRepository roleRepository;
 
-    @PostMapping(value = "/api/file/check")
-    public ResponseEntity<Object> check(@RequestBody String file) {
+    @PostMapping(value = "/api/admin/file/check")
+    public ResponseEntity<Object> check(@RequestBody String file, HttpServletRequest request) {
         logger.atInfo().log("File checked: " + file);
+        CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+        logger.info("{}={}", token.getHeaderName(), token.getToken());
         try (Reader reader = new StringReader(file.trim())) {
 
             // create csv bean reader
@@ -65,7 +69,7 @@ public class FileRestController {
         }
     }
 
-    @PostMapping(value = "/api/file/upload")
+    @PostMapping(value = "/api/admin/file/upload")
     public ResponseEntity<Object> upload(@RequestBody String file) {
 
         try (Reader reader = new StringReader(file.trim())) {
@@ -89,7 +93,7 @@ public class FileRestController {
 
             // Now, userList contains your CSV data as a list of User objects
             for (User user : userList) {
-                System.out.println(user.getEmail() + ", " + user.getFirstname() + ", " + user.getLastname() + ", " + user.getPhonenr());
+                logger.info(user.getEmail() + ", " + user.getFirstname() + ", " + user.getLastname() + ", " + user.getPhonenr());
             }
 
             return new ResponseEntity<Object>(HttpStatus.OK);

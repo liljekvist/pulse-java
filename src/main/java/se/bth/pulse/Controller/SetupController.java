@@ -20,9 +20,12 @@ public class SetupController {
     @GetMapping("/setup")
     public String showSetup(Model model) {
         List<Setting> result = settingRepository.findByName("setup_done");
-        if (result.isEmpty())
-            return "public/setup";
-        else
-            return "redirect:/";
+        if (result.isEmpty()) {
+            model.addAttribute("content", "setup.jsp");
+            return "public/index";
+        }
+        else{
+                return "redirect:/";
+            }
     }
 }

@@ -1,5 +1,9 @@
 package se.bth.pulse.Controller;
 
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.hibernate.tool.schema.spi.SqlScriptException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +16,7 @@ import se.bth.pulse.Repository.RoleRepository;
 import se.bth.pulse.Repository.SettingRepository;
 import se.bth.pulse.Repository.UserRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -45,20 +50,25 @@ public class SetupRestController {
     }
 
     @PostMapping(value = "/api/setup/configure_admin_account", produces = "application/json")
-    public User configureAdminAccount(@RequestParam("email") String email, @RequestParam("password") String password) {
-        Role admin_role = new Role();
-        admin_role.setName("admin");
-        admin_role.setPremissions("rwx");
-        roleRepository.save(admin_role);
+    public ResponseEntity<Object> configureAdminAccount(@RequestParam("email") String email, @RequestParam("password") String password) {
+        try {
+            Role admin_role = new Role();
+            admin_role.setName("admin");
+            admin_role.setPremissions("rwx");
+            roleRepository.save(admin_role);
 
-        User admin = new User();
-        admin.setEmail(email);
-        admin.setPassword(new BCryptPasswordEncoder().encode(password));
-        admin.setEnabled(true);
-        admin.setRole(admin_role);
-        userRepository.save(admin);
+            User admin = new User();
+            admin.setEmail(email);
+            admin.setPassword(new BCryptPasswordEncoder().encode(password));
+            admin.setEnabled(true);
+            admin.setRole(admin_role);
+            userRepository.save(admin);
 
-        return admin;
+            return new ResponseEntity<Object>(admin, HttpStatus.OK);
+        }
+        catch (SqlScriptException ex){
+            return new ResponseEntity<Object>(ex.getCause(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

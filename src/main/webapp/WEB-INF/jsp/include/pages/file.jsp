@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <style>
     #holder { border: 10px dashed #ccc; width: 300px; height: 300px; margin: 20px auto;}
     #holder.hover { border: 10px dashed #333; }
@@ -21,6 +23,7 @@
     </article>
 </main>
 <script>
+    const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
     let file = null,
         file_data = null;
     // modified from http://html5demos.com/file-api
@@ -54,11 +57,14 @@
             holder.innerText = event.target.result;
             file_data = event.target.result;
             $.ajax({
-                url: "/api/file/check",
+                url: "/api/admin/file/check",
                 type: "POST",
                 data: file_data,
                 processData: false,
                 contentType: false,
+                headers: {
+                    '${_csrf.headerName}': '${_csrf.token}'
+                },
                 success: function (data) {
                     help.innerText = "";
                 },
@@ -79,13 +85,16 @@
             return;
         }
         $.ajax({
-            url: "/api/file/upload",
+            url: "/api/admin/file/upload",
             type: "POST",
             data: file_data,
             processData: false,
             contentType: false,
+            headers: {
+                '${_csrf.headerName}': '${_csrf.token}'
+            },
             success: function (data) {
-                console.log(data);
+                window.location.href = "/admin/users";
             }
         });
     }

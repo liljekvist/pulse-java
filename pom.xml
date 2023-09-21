@@ -41,7 +41,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-docker-compose</artifactId>
 			<scope>runtime</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
@@ -138,6 +137,13 @@
 		<resources>
 			<resource>
 				<directory>src/main/webapp</directory>
+			</resource>
+			<resource>
+				<directory>./</directory>
+
+				<includes>
+					<include>compose.yaml</include>
+				</includes>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>

@@ -3,6 +3,7 @@ package se.bth.pulse.Security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,20 +35,21 @@ public class ApplicationSecurity {
         httpSecurity
                 .csrf((csrf) -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers(antMatcher("/api/setup/**")) // csrf disabled for setup
-                        .ignoringRequestMatchers(antMatcher("/login")) // csrf disabled for login
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
+                                antMatcher(HttpMethod.GET, "/api/admin/**"),
+                                antMatcher(HttpMethod.POST, "/api/admin/**"),
+                                antMatcher(HttpMethod.GET, "/swagger-ui/**"),
+                                antMatcher(HttpMethod.GET, "/swagger-ui"),
                                 mvc.pattern("/admin/**")
+
                         )
                         .hasAuthority("admin")
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
                                 antMatcher("/api/setup/**"),
-                                antMatcher("/swagger-ui/**"),
-                                antMatcher("/swagger-ui"),
                                 antMatcher("/error*"),
                                 antMatcher("/login"),
                                 antMatcher("/WEB-INF/jsp/public/**"),

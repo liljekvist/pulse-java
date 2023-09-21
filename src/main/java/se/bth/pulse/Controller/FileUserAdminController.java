@@ -10,7 +10,7 @@ public class FileUserAdminController {
 
     @GetMapping(value = "/admin/users/file")
     public String file(Model model, Authentication authentication) {
-        model.addAttribute("user", authentication.getName());
+        model.addAttribute("username", authentication.getName());
         model.addAttribute("role", authentication.getAuthorities().toString());
         model.addAttribute("content", "file.jsp");
         return "public/index";
