@@ -28,6 +28,7 @@ import se.bth.pulse.Repository.UserRepository;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class FileRestController {
 
             List<User> users = csv.parse();
             for (User user : users) {
-                user.setPassword(new BCryptPasswordEncoder().encode(RandomStringUtils.randomAlphanumeric(12))); // Kommer sättas igen vid submit
+                user.setPassword(new BCryptPasswordEncoder().encode(RandomStringUtils.random(20, 0, 0, true, true, null, new SecureRandom()))); // Kommer sättas igen vid submit
                 user.setEnabled(false);
                 user.setRole(default_role);
             }
@@ -92,7 +93,7 @@ public class FileRestController {
         try {
             Role default_role = roleRepository.findByName("default");
             for (User user : userList) {
-                String password = RandomStringUtils.randomAlphanumeric(12);
+                String password = RandomStringUtils.random(20, 0, 0, true, true, null, new SecureRandom());
                 user.setPassword(new BCryptPasswordEncoder().encode(password));
                 user.setEnabled(false);
                 user.setRole(default_role);
