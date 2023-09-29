@@ -1,4 +1,4 @@
 email,firstname,lastname,phonenr
 test@example.com,,John,Doe,123456789
 test2@example.com,Jane,Doe,987654321
-test3@example.com,John,Doe,223355789
+test3@example.com,,223355789

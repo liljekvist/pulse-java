@@ -34,6 +34,7 @@ public class User {
 
     private Boolean enabled;
 
+    @Getter
     @ManyToOne
     private Role role;
 
@@ -72,9 +73,9 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getRole() {
-        return role.getName();
-    }
+    public Role getRole() {
+        return role;
+    };
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;

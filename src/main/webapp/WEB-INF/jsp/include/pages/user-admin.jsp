@@ -33,7 +33,7 @@
               <td>${_user.firstname}</td>
               <td>${_user.lastname}</td>
               <td>${_user.email}</td>
-              <td>${_user.role}</td>
+              <td>${_user.role.name}</td>
             <td>
                 <a href="/admin/user/edit/${_user.id}" class="btn btn-primary">Edit</a>
                 <a href="/admin/user/delete/${_user.id}" class="btn btn-danger">Delete</a>
