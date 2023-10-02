@@ -1,6 +1,6 @@
 /* globals Chart:false */
 
 (() => {
-  'use strict'
-}
+      'use strict'
+    }
 )()
