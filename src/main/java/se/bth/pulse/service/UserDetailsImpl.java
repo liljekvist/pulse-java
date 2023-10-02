@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import se.bth.pulse.entity.User;
 
 /**
@@ -32,6 +33,8 @@ public class UserDetailsImpl implements UserDetails {
     return user.getPassword();
   }
 
+
+
   @Override
   public String getUsername() {
     return user.getEmail();
@@ -52,9 +55,13 @@ public class UserDetailsImpl implements UserDetails {
     return true;
   }
 
+  public boolean userShouldChangePassword() {
+    return user.getCredentialsExpired();
+  }
+
   @Override
   public boolean isEnabled() {
-    return true;
+    return user.getEnabled();
   }
 
 }

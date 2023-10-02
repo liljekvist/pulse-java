@@ -21,10 +21,8 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import se.bth.pulse.service.UserDetailsServiceImpl;
 
 /**
- * ApplicationSecurity class.
- * Configures the security for the application.
- * Also sets the password encoder and user details service.
- * This class configures CSRF protection.
+ * ApplicationSecurity class. Configures the security for the application. Also sets the password
+ * encoder and user details service. This class configures CSRF protection.
  */
 @Configuration
 @EnableWebSecurity()
@@ -36,14 +34,13 @@ public class ApplicationSecurity {
   }
 
   /**
-   * Configures the security for the application.
-   * Including CSRF protection, authorization and authentication.
-   * Using paths it sets who is allowed to access what.
+   * Configures the security for the application. Including CSRF protection, authorization and
+   * authentication. Using paths it sets who is allowed to access what.
    *
-   * @param httpSecurity  HttpSecurity
-   * @param mvc           MvcRequestMatcher.Builder
+   * @param httpSecurity HttpSecurity
+   * @param mvc          MvcRequestMatcher.Builder
    * @return SecurityFilterChain
-   * @throws Exception    Exception
+   * @throws Exception Exception
    */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvc)
@@ -86,6 +83,7 @@ public class ApplicationSecurity {
             .loginPage("/login")
             .permitAll()
             .defaultSuccessUrl("/", false)
+            .successHandler(new PasswordChangeAuthenticationSuccessHandler())
         )
         .httpBasic(withDefaults());
 
@@ -103,9 +101,8 @@ public class ApplicationSecurity {
   }
 
   /**
-   * Configures the authentication provider.
-   * Sets our user details service to be used and Bcrypt password encoder.
-   * Returns a customized authentication provider.
+   * Configures the authentication provider. Sets our user details service to be used and Bcrypt
+   * password encoder. Returns a customized authentication provider.
    *
    * @return DaoAuthenticationProvider
    */
@@ -118,8 +115,8 @@ public class ApplicationSecurity {
   }
 
   /**
-   * This configures a spring bean to use our customized authentication provider.
-   * It needs to be set as Primary to be used, otherwise it will use the default one.
+   * This configures a spring bean to use our customized authentication provider. It needs to be set
+   * as Primary to be used, otherwise it will use the default one.
    *
    * @param auth AuthenticationManagerBuilder
    * @return AuthenticationManagerBuilder

@@ -121,10 +121,12 @@ public class FileRestController {
       for (User user : userList) {
         String password = RandomStringUtils.random(20, 0, 0, true, true, null, new SecureRandom());
         user.setPassword(new BCryptPasswordEncoder().encode(password));
-        user.setEnabled(false);
+        user.setEnabled(true);
+        user.setCredentialsExpired(true); // Make user change password on first login
         user.setRole(defaultRole);
         userRepository.save(user);
         sendUserCreationEmail(user.getEmail(), password);
+        logger.info("User created: " + user.getEmail() + " With password: " + password);
       }
 
       // Now, userList contains your CSV data as a list of User objects

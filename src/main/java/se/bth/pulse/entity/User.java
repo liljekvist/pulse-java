@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Set;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 
 /**
  * This is the entity class for the table User.
@@ -44,6 +45,9 @@ public class User {
   private String password; //salted and hashed with bcrypt
 
   private Boolean enabled;
+
+  @ColumnDefault("false")
+  private Boolean credentialsExpired = false;
 
   @Getter
   @ManyToOne
@@ -86,5 +90,9 @@ public class User {
 
   public void setProjects(Set<Project> projects) {
     this.projects = projects;
+  }
+
+  public void setCredentialsExpired(Boolean credentialsExpired) {
+    this.credentialsExpired = credentialsExpired;
   }
 }
