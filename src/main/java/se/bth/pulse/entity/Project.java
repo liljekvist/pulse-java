@@ -29,6 +29,9 @@ import lombok.Getter;
 @Table(name = "Project")
 public class Project {
 
+  /**
+   * Enum for the report interval.
+   */
   public enum ReportInterval {
     DAILY,
     WEEKLY,
@@ -36,6 +39,9 @@ public class Project {
     MONTHLY
   }
 
+  /**
+   * Enum for the report day.
+   */
   public enum WeekDay {
     MONDAY,
     TUESDAY,

@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import se.bth.pulse.entity.Project;
 import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.UserRepository;
+
+/**
+ * This class is a view controller that serves the project admin page.
+ * The return string is the name of the view to be rendered.
+ * The model is used to pass attributes to the view.
+ */
 @Controller
 public class ProjectAdminController {
 
@@ -20,16 +26,31 @@ public class ProjectAdminController {
     this.projectRepository = projectRepository;
     this.userRepository = userRepository;
   }
+
+  /**
+   * This function is used to render the project admin page.
+   * It uses the project repository to get all the projects.
+   *
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
+   * @return String        - the view to be rendered
+   */
   @GetMapping("/admin/projects")
   public String showProjects(Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
-    model.addAttribute("users", userRepository.findAll());
     model.addAttribute("projects", projectRepository.findAll());
     model.addAttribute("role", authentication.getAuthorities().toString());
     model.addAttribute("content", "project-admin.jsp");
     return "public/index";
   }
 
+  /**
+   * Shows the add project page to the user.
+   *
+   * @param model           - used to pass attributes to the view
+   * @param authentication  - used to get the username and role of the logged-in user
+   * @return String         - the view to be rendered
+   */
   @GetMapping("/admin/projects/add")
   public String showAddProjects(Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
@@ -38,6 +59,16 @@ public class ProjectAdminController {
     return "public/index";
   }
 
+  /**
+   * This function is used to render the project admin page for editing of a project.
+   * It uses the project repository to get the project with the given id.
+   * The id is passed as a path variable.
+   *
+   * @param id              - the id of the project to be edited
+   * @param model           - used to pass attributes to the view
+   * @param authentication  - used to get the username and role of the logged-in user
+   * @return String         - the view to be rendered
+   */
   @GetMapping("/admin/projects/edit/{id}")
   public String showEditProjects(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
@@ -47,6 +78,16 @@ public class ProjectAdminController {
     return "public/index";
   }
 
+  /**
+   * This function is used to render the project admin page for editing of a projects members.
+   * It uses the project repository to get the project with the given id.
+   * The id is passed as a path variable.
+   *
+   * @param id                - the id of the project to be edited
+   * @param model             - used to pass attributes to the view
+   * @param authentication    - used to get the username and role of the logged-in user
+   * @return String           - the view to be rendered
+   */
   @GetMapping("/admin/projects/users/{id}")
   public String showEditUsersProjects(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());

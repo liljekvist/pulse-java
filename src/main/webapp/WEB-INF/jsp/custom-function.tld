@@ -12,13 +12,13 @@
   <short-name>html</short-name>
   <function>
     <name>contains</name>
-    <function-class>se.bth.pulse.utility.JSPCustomFunctions</function-class>
+    <function-class>se.bth.pulse.utility.JspCustomFunctions</function-class>
     <function-signature>boolean contains(java.util.List,java.lang.Object)
     </function-signature>
   </function>
   <function>
     <name>containsUser</name>
-    <function-class>se.bth.pulse.utility.JSPCustomFunctions</function-class>
+    <function-class>se.bth.pulse.utility.JspCustomFunctions</function-class>
     <function-signature>boolean containsUser(java.util.List, java.lang.Integer)
     </function-signature>
   </function>

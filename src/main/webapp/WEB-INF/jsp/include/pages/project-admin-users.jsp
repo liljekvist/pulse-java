@@ -50,7 +50,7 @@
     $("#submitButton").click(function (e) {
       let data = {
         id: parseInt($("#id").val(), 10),
-        user_ids: $('#user_ids').val().map(function (x) {
+        userIds: $('#user_ids').val().map(function (x) {
           return parseInt(x, 10);
         })
       }
