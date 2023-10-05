@@ -42,7 +42,7 @@
 
             <h6 class="sidebar-heading d-flex align-items-left px-3 gap-2 mt-2 mb-1 ml0-m text-body-secondary text-uppercase">
                 <svg class="bi">
-                    <use xlink:href="#door-closed"/>
+                    <use xlink:href="#door-closed"></use>
                 </svg>
                 <span>Admin</span>
             </h6>
@@ -51,15 +51,15 @@
                     <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("user-admin.jsp") || request.getParameter("content").equals("file.jsp")) { %> active <% } %>"
                        href="${pageContext.request.contextPath}/admin/users">
                         <svg class="bi">
-                            <use xlink:href="#door-closed"/>
+                            <use xlink:href="#door-closed"></use>
                         </svg>
                         User magament
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
+                    <a class="nav-link d-flex align-items-center gap-2" href="${pageContext.request.contextPath}/admin/projects">
                         <svg class="bi">
-                            <use xlink:href="#file-earmark-text"/>
+                            <use xlink:href="#file-earmark-text"></use>
                         </svg>
                         Project magament
                     </a>
@@ -67,7 +67,7 @@
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="#">
                         <svg class="bi">
-                            <use xlink:href="#file-earmark-text"/>
+                            <use xlink:href="#file-earmark-text"></use>
                         </svg>
                         Report magament
                     </a>

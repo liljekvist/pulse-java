@@ -1,5 +1,8 @@
 package se.bth.pulse.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +16,8 @@ import se.bth.pulse.service.UserDetailsImpl;
  * This class is a rest controller that serves the password change page.
  */
 @RestController
+@OpenAPIDefinition(info = @Info(title = "PasswordChangeRestController", version = "v1"))
+@SecurityRequirement(name = "basicAuth")
 public class PasswordChangeRestController {
 
   PasswordChangeRestController(UserRepository userRepository) {

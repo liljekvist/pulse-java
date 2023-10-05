@@ -1,5 +1,8 @@
 package se.bth.pulse.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,8 @@ import se.bth.pulse.repository.UserRepository;
  * - configure the default role
  */
 @RestController
+@OpenAPIDefinition(info = @Info(title = "SetupRestController", version = "v1"))
+@SecurityRequirement(name = "basicAuth")
 public class SetupRestController {
 
   private final SettingRepository settingRepository;

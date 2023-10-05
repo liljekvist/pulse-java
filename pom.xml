@@ -122,6 +122,13 @@
       <groupId>org.springdoc</groupId>
       <version>2.2.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-security -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-security</artifactId>
+      <version>1.7.0</version>
+    </dependency>
+
     <dependency>
       <artifactId>snakeyaml</artifactId>
       <groupId>org.yaml</groupId>

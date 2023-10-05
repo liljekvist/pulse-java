@@ -2,6 +2,9 @@ package se.bth.pulse.controller;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.exceptions.CsvException;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.Reader;
 import java.io.StringReader;
@@ -32,14 +35,16 @@ import se.bth.pulse.repository.UserRepository;
  * It is used to upload a csv file containing users.
  */
 @RestController
-public class FileRestController {
+@OpenAPIDefinition(info = @Info(title = "FileUserAdminRestController", version = "v1"))
+@SecurityRequirement(name = "basicAuth")
+public class FileUserAdminRestController {
 
-  Logger logger = LoggerFactory.getLogger(FileRestController.class);
+  Logger logger = LoggerFactory.getLogger(FileUserAdminRestController.class);
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final JavaMailSender emailSender;
 
-  FileRestController(
+  FileUserAdminRestController(
       UserRepository userRepository,
       RoleRepository roleRepository,
       JavaMailSender emailSender
