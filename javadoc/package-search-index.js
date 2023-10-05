@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"se.bth.pulse"},{"l":"se.bth.pulse.controller"},{"l":"se.bth.pulse.entity"},{"l":"se.bth.pulse.repository"},{"l":"se.bth.pulse.security"},{"l":"se.bth.pulse.service"},{"l":"se.bth.pulse.utility"}];updateSearchResults();
