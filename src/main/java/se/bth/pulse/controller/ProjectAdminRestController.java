@@ -1,25 +1,37 @@
 package se.bth.pulse.controller;
 
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import lombok.Getter;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.Project.ReportInterval;
-import se.bth.pulse.entity.Project.WeekDay;
 import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.UserRepository;
+import se.bth.pulse.utility.ReportJob;
 
 /**
  * This class is a REST controller that exposes endpoints for project administration.
@@ -31,9 +43,14 @@ public class ProjectAdminRestController {
 
   private final ProjectRepository projectRepository;
 
+  private SchedulerFactoryBean schedulerFactoryBean;
+
   private final UserRepository userRepository;
 
-  ProjectAdminRestController(ProjectRepository projectRepository, UserRepository userRepository) {
+  ProjectAdminRestController(ProjectRepository projectRepository, SchedulerFactoryBean schedulerFactoryBean,
+      UserRepository userRepository)
+      throws SchedulerException {
+    this.schedulerFactoryBean = schedulerFactoryBean;
     this.projectRepository = projectRepository;
     this.userRepository = userRepository;
   }
@@ -76,19 +93,42 @@ public class ProjectAdminRestController {
    * @param name              - the name of the project
    * @param description       - the description of the project
    * @param reportInterval    - the report interval of the project
-   * @param reportDay         - the report day of the project
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @PostMapping("/api/admin/project/add")
-  public ResponseEntity createProject(String name, String description, ReportInterval reportInterval, WeekDay reportDay) {
+  public ResponseEntity createProject(String name, String description, ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
 
+    Scheduler scheduler = schedulerFactoryBean.getScheduler();
     try {
       Project project = new Project();
       project.setName(name);
       project.setDescription(description);
       project.setReportInterval(reportInterval);
-      project.setReportDay(reportDay);
+      project.setStartDate(startDate);
+      project.setEndDate(endDate);
       projectRepository.save(project);
+
+
+      JobKey jobKey = new JobKey(name + "_" + project.getId() + "_reports", "reports");
+      JobDetail job = JobBuilder.newJob(ReportJob.class)
+          .usingJobData("project_id", project.getId())
+          .withIdentity(jobKey)
+          .build();
+
+      job.getJobDataMap().put("project_id", project.getId());
+
+      Trigger trigger = TriggerBuilder
+          .newTrigger()
+          .withIdentity(name + "_" + project.getId() + "_report_trigger", "reports")
+          .startAt(startDate)
+          .endAt(endDate)
+          .withSchedule(
+              simpleSchedule().withIntervalInHours(reportInterval.getHours()).repeatForever()
+          )
+          .build();
+
+      scheduler.scheduleJob(job, trigger);
+
       return new ResponseEntity<>(project, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>("Error creating project", HttpStatus.BAD_REQUEST);
@@ -105,11 +145,10 @@ public class ProjectAdminRestController {
    * @param name              - the new or old name of the project
    * @param description       - the new or old description of the project
    * @param reportInterval    - the new or old report interval of the project
-   * @param reportDay         - the new or old report day of the project
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @PostMapping("/api/admin/project/edit")
-  public ResponseEntity editProject(Integer id, String name, String description, ReportInterval reportInterval, WeekDay reportDay) {
+  public ResponseEntity editProject(Integer id, String name, String description, ReportInterval reportInterval, Date startDate, Date endDate) {
 
     try {
       Optional<Project> project = projectRepository.findById(id);
@@ -120,7 +159,8 @@ public class ProjectAdminRestController {
       projectObj.setName(name);
       projectObj.setDescription(description);
       projectObj.setReportInterval(reportInterval);
-      projectObj.setReportDay(reportDay);
+      projectObj.setStartDate(startDate);
+      projectObj.setEndDate(endDate);
 
       projectRepository.save(projectObj);
       return new ResponseEntity<>(project, HttpStatus.OK);

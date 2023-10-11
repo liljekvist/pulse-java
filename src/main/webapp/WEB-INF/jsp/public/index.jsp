@@ -65,7 +65,10 @@
         <% } %>
 
 
-        <jsp:include page="../include/pages/${content}"/>
+        <jsp:include page="../include/pages/${content}">
+            <jsp:param name="role" value="${role}"/>
+            <jsp:param name="username" value="${username}"/>
+        </jsp:include>
 
     </div>
 </div>

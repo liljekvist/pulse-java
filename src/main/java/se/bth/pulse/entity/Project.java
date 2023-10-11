@@ -1,5 +1,7 @@
 package se.bth.pulse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import lombok.Getter;
@@ -27,6 +30,7 @@ import lombok.Getter;
 @Getter
 @Entity(name = "Project")
 @Table(name = "Project")
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Project {
 
   /**
@@ -36,20 +40,17 @@ public class Project {
     DAILY,
     WEEKLY,
     BIWEEKLY,
-    MONTHLY
-  }
+    MONTHLY;
 
-  /**
-   * Enum for the report day.
-   */
-  public enum WeekDay {
-    MONDAY,
-    TUESDAY,
-    WEDNESDAY,
-    THURSDAY,
-    FRIDAY,
-    SATURDAY,
-    SUNDAY
+    public int getHours() {
+      return switch (this) {
+        case DAILY -> 24;
+        case WEEKLY -> 24 * 7;
+        case BIWEEKLY -> 24 * 7 * 2;
+        case MONTHLY -> 24 * 7 * 4;
+        default -> 0;
+      };
+    }
   }
 
   @Id
@@ -62,7 +63,9 @@ public class Project {
 
   private ReportInterval reportInterval;
 
-  private WeekDay reportDay;
+  private Date startDate;
+
+  private Date endDate;
 
   @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
   private List<Report> reports;
@@ -90,7 +93,15 @@ public class Project {
     this.reportInterval = reportInterval;
   }
 
-  public void setReportDay(WeekDay reportDay) {
-    this.reportDay = reportDay;
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+
+  public void setReports(List<Report> reports) {
+    this.reports = reports;
   }
 }

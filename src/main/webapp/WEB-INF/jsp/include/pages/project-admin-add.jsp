@@ -11,6 +11,11 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -30,16 +35,10 @@
             <option value="BIWEEKLY">BIWEEKLY</option>
             <option value="MONTHLY">MONTHLY</option>
         </select><br><br>
-        <label for="reportDay">Report Day:</label>
-        <select name="reportDay" id="reportDay">
-            <option value="MONDAY">MONDAY</option>
-            <option value="TUESDAY">TUESDAY</option>
-            <option value="WEDNESDAY">WEDNESDAY</option>
-            <option value="THURSDAY">THURSDAY</option>
-            <option value="FRIDAY">FRIDAY</option>
-            <option value="SATURDAY">SATURDAY</option>
-            <option value="SUNDAY">SUNDAY</option>
-        </select><br><br>
+
+        <label for="datefilter">Report Day:</label>
+        <input type="text" name="datefilter" id="datefilter" value="" /><br><br>
+
         <input type="submit" id="submitButton" value="Submit">
     </form>
     <p id="status"></p>
@@ -47,13 +46,44 @@
 
 <script>
   $(document).ready(function () {
+
+    let startDate = null;
+    let endDate = null;
+
+    $('input[name="datefilter"]').daterangepicker({
+      autoUpdateInput: false,
+      timePicker: true,
+      startDate: moment().startOf('hour'),
+      endDate: moment().startOf('hour').add(32, 'hour'),
+      locale: {
+        cancelLabel: 'Clear'
+      }
+    });
+
+    $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+        startDate = picker.startDate.toISOString();
+        endDate = picker.endDate.toISOString();
+    });
+
+    $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+    });
     let status = document.getElementById("status");
     $("#submitButton").click(function (e) {
+      let data = {
+        name: $("#name").val(),
+        description: $("#description").val(),
+        reportInterval: $("#reportInterval").val(),
+        reportDay: $("#reportDay").val(),
+        startDate: startDate,
+        endDate: endDate
+      }
       e.preventDefault();
       $.ajax({
         type: "POST",
         url: "/api/admin/project/add",
-        data: $("#projectForm").serialize(),
+        data: data,
         headers: {
           '${_csrf.headerName}': '${_csrf.token}'
         },

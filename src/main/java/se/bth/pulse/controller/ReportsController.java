@@ -26,4 +26,5 @@ public class ReportsController {
     model.addAttribute("content", "reports.jsp");
     return "public/index";
   }
+
 }

@@ -26,8 +26,9 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Interval</th>
-                <th>Report day</th>
+                <th>Report interval</th>
+                <th>Start date</th>
+                <th>End date</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -38,7 +39,8 @@
                     <td>${_project.name}</td>
                     <td>${_project.description}</td>
                     <td>${_project.reportInterval}</td>
-                    <td>${_project.reportDay}</td>
+                    <td>${_project.startDate}</td>
+                    <td>${_project.endDate}</td>
                     <td>
                         <a href="/admin/projects/users/${_project.id}" class="btn btn-primary">Users</a>
                         <a href="/admin/projects/edit/${_project.id}" class="btn btn-primary">Edit</a>

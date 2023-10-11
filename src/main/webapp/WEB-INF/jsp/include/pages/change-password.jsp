@@ -23,7 +23,7 @@
 
         <p id="status"></p>
 
-        <input class="btn btn-primary w-100 py-2" type="button" id="submit">Sign in</input>
+        <input class="btn btn-primary w-100 py-2" type="button" id="submit" value="Sign in"/>
     </form>
 </main>
 

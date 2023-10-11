@@ -1,9 +1,19 @@
 package se.bth.pulse;
 
+import static org.quartz.JobBuilder.newJob;
+
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.event.EventListener;
+import se.bth.pulse.entity.Report;
+import se.bth.pulse.utility.ReportJob;
 
 /**
  * PulseApplication class.

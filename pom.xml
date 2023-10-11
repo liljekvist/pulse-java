@@ -128,7 +128,12 @@
       <artifactId>springdoc-openapi-security</artifactId>
       <version>1.7.0</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.3.2</version>
+    </dependency>
     <dependency>
       <artifactId>snakeyaml</artifactId>
       <groupId>org.yaml</groupId>
@@ -159,6 +164,11 @@
       <artifactId>opencsv</artifactId>
       <groupId>com.opencsv</groupId>
       <version>5.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>6.0.11</version>
     </dependency>
   </dependencies>
   <description>Pulse website</description>

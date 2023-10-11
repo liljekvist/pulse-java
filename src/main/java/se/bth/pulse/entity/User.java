@@ -1,5 +1,8 @@
 package se.bth.pulse.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +26,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Entity(name = "User")
 @Table(name = "User")
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 
   @Id

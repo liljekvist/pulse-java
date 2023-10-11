@@ -8,3 +8,6 @@ services:
       - 'MARIADB_USER=pulse'
     ports:
       - '3306:3306'
+    expose:
+      - "3366"
+
