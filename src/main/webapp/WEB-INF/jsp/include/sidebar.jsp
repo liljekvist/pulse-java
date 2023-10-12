@@ -26,7 +26,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("reports.jsp")) { %> active <% } %>"
+                    <a class="nav-link d-flex align-items-center gap-2 <% if(request.getParameter("content").equals("reports.jsp") || request.getParameter("content").equals("view-report.jsp")) { %> active <% } %>"
                        href="${pageContext.request.contextPath}/reports">
                         <svg class="bi">
                             <use xlink:href="#graph-up"/>

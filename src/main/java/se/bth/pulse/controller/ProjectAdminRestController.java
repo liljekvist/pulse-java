@@ -116,6 +116,7 @@ public class ProjectAdminRestController {
           .build();
 
       job.getJobDataMap().put("project_id", project.getId());
+      job.getJobDataMap().put("report_interval", project.getReportInterval().getHours());
 
       Trigger trigger = TriggerBuilder
           .newTrigger()
@@ -124,8 +125,10 @@ public class ProjectAdminRestController {
           .endAt(endDate)
           .withSchedule(
               simpleSchedule().withIntervalInHours(reportInterval.getHours()).repeatForever()
+                  .withMisfireHandlingInstructionFireNow()
           )
           .build();
+
 
       scheduler.scheduleJob(job, trigger);
 

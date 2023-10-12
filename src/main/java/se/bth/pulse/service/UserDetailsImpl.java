@@ -1,11 +1,13 @@
 package se.bth.pulse.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import se.bth.pulse.entity.Authority;
 import se.bth.pulse.entity.User;
 
 /**
@@ -24,8 +26,14 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
-    return List.of(authority);
+    List<Authority> auths = user.getRole().getAuthorities();
+    List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+    for (Authority auth : auths) {
+      authorities.add(new SimpleGrantedAuthority(auth.getName()));
+    }
+
+    return authorities;
   }
 
   @Override
@@ -34,6 +42,9 @@ public class UserDetailsImpl implements UserDetails {
   }
 
 
+  public User getUser() {
+    return user;
+  }
 
   @Override
   public String getUsername() {

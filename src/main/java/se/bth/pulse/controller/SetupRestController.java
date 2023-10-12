@@ -3,6 +3,8 @@ package se.bth.pulse.controller;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.tool.schema.spi.SqlScriptException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import se.bth.pulse.entity.Authority;
 import se.bth.pulse.entity.Role;
 import se.bth.pulse.entity.Setting;
 import se.bth.pulse.entity.User;
+import se.bth.pulse.repository.AuthorityRepository;
 import se.bth.pulse.repository.RoleRepository;
 import se.bth.pulse.repository.SettingRepository;
 import se.bth.pulse.repository.UserRepository;
@@ -36,6 +40,8 @@ public class SetupRestController {
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
 
+  private final AuthorityRepository authorityRepository;
+
   /**
    * Sets the repositories using dependency injection.
    * Spring automatically creates instances of the repositories then passes them to the constructor.
@@ -45,10 +51,11 @@ public class SetupRestController {
    * @param roleRepository      - used to interact with the table Role.
    */
   public SetupRestController(SettingRepository settingRepository, UserRepository userRepository,
-      RoleRepository roleRepository) {
+      RoleRepository roleRepository, AuthorityRepository authorityRepository) {
     this.settingRepository = settingRepository;
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
+    this.authorityRepository = authorityRepository;
   }
 
   /**
@@ -64,10 +71,12 @@ public class SetupRestController {
 
     settingRepository.save(setup);
 
+    Authority defaultAuth = authorityRepository.findByName("default");
+
     // setup default role
     Role defaultRole = new Role();
     defaultRole.setName("default");
-    defaultRole.setPremissions("r");
+    defaultRole.setAuthorities(List.of(defaultAuth));
     roleRepository.save(defaultRole);
 
     return true;
@@ -87,9 +96,23 @@ public class SetupRestController {
   public ResponseEntity<Object> configureAdminAccount(@RequestParam("email") String email,
       @RequestParam("password") String password) {
     try {
+
+      List<Authority> auths = new ArrayList<>();
+      Authority adminAuth = new Authority();
+      adminAuth.setName("admin");
+
+      auths.add(adminAuth);
+
+      Authority defaultAuth = new Authority();
+      defaultAuth.setName("default");
+      
+      auths.add(defaultAuth);
+
+      auths = authorityRepository.saveAll(auths);
+
       Role adminRole = new Role();
       adminRole.setName("admin");
-      adminRole.setPremissions("rwx");
+      adminRole.setAuthorities(auths);
       roleRepository.save(adminRole);
 
       User admin = new User();

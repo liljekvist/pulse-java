@@ -1,8 +1,10 @@
 package se.bth.pulse.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.Report;
+import se.bth.pulse.entity.User;
 
 /**
  * This interface is used to interact with the table Project.
@@ -11,5 +13,7 @@ import se.bth.pulse.entity.Report;
  */
 public interface ReportRepository extends JpaRepository<Report, Integer> {
 
-  Report findByProject(Project project);
+  List<Report> findAllByProjectUsersIn(List<User> users);
+
+  Report findByIdAndProjectUsersIn(Integer id, List<User> users);
 }

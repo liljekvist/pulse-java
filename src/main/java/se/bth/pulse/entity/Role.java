@@ -1,10 +1,16 @@
 package se.bth.pulse.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 
 /**
@@ -28,8 +34,8 @@ public class Role {
 
   private String name;
 
-  //site wide and structured like this "rwx" where r is read, w is write and x is full access
-  private String premissions;
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  private List<Authority> authorities;
 
   public void setId(Integer id) {
     this.id = id;
@@ -39,7 +45,7 @@ public class Role {
     this.name = name;
   }
 
-  public void setPremissions(String premissions) {
-    this.premissions = premissions;
+  public void setAuthorities(List<Authority> authorities) {
+    this.authorities = authorities;
   }
 }

@@ -49,6 +49,9 @@
             </thead>
         </table>
         <input type="button" id="submit" name="Submit" value="Submit">
+        <div id="loading">
+
+        </div>
     </article>
 </main>
 <script>
@@ -135,6 +138,7 @@
     };
 
     submit.onclick = function () {
+      $("#loading").html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
       if (file_data == null) {
         alert("please drag and drop a file");
         return;

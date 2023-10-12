@@ -21,6 +21,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,16 +61,24 @@ public class ApplicationSecurity {
         .csrf((csrf) -> csrf
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         )
+        .cors(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(
                 antMatcher(HttpMethod.GET, "/api/admin/**"),
                 antMatcher(HttpMethod.POST, "/api/admin/**"),
+                antMatcher(HttpMethod.POST, "/api/report/**"),
                 antMatcher(HttpMethod.GET, "/swagger-ui/**"),
                 antMatcher(HttpMethod.GET, "/swagger-ui"),
                 mvc.pattern("/admin/**")
 
             )
             .hasAuthority("admin")
+        )
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(
+                antMatcher(HttpMethod.POST, "/api/public/report/**")
+            )
+            .hasAuthority("default")
         )
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(
