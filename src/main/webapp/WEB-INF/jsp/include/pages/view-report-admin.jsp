@@ -1,4 +1,5 @@
-<%--
+<%@ page import="se.bth.pulse.entity.Report" %>
+<%@ page import="se.bth.pulse.entity.Report.Status" %><%--
   Created by IntelliJ IDEA.
   User: mikae
   Date: 2023-10-12
@@ -22,43 +23,39 @@
 
     <div id="editor"></div>
 
-    <button id="save-button" class="btn btn-primary">Save</button>
+    <% Report report = (Report) request.getAttribute("report"); %>
 
-    <h3>Comments:</h3>
-
+    <button id="read-button" class="btn btn-primary <% if(report.getStatus() == Status.READ) { %> disabled <% } %>"> <% if(report.getStatus() == Status.READ) { %> Marked as read <% } else {%> Mark as read <% } %></button>
 
 </main>
 
 <script>
 
   var quill = new Quill('#editor', {
+    readOnly: true,
     theme: 'snow'
   });
-
-  const saveButton = document.getElementById('save-button');
 
   quill.setContents(${report.content});
 
 
-  $("#save-button").click(function (e) {
+  $("#read-button").click(function (e) {
     let data = {
-      id: ${report.id},
-      content: JSON.stringify(quill.getContents())
+      id: ${report.id}
     }
     e.preventDefault();
 
     $.ajax({
       type: "POST",
-      url: "/api/public/report/",
-      data: JSON.stringify(data),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
+      url: "/api/admin/report/read/${report.id}",
+      data: null,
       headers: {
         '${_csrf.headerName}': '${_csrf.token}'
       },
       success: function (data) {
         console.log(data);
-        window.location.href = "/reports";
+        $("#read-button").addClass("disabled");
+        $("#read-button").text("Marked as Read");
       },
       error: function (errMsg) {
         console.error(errMsg);

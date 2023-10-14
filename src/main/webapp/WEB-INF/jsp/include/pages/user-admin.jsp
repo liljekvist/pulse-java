@@ -11,8 +11,6 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">User Management</h1>
     </div>
-
-    <h2>User Admin</h2>
     <a href="/admin/users/file" class="btn btn-primary">Import Users</a>
     <div class="table-responsive">
         <table class="table table-striped table-sm">

@@ -17,6 +17,9 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -46,6 +49,8 @@ public class ProjectAdminRestController {
   private SchedulerFactoryBean schedulerFactoryBean;
 
   private final UserRepository userRepository;
+
+  Logger logger = LoggerFactory.getLogger(ProjectAdminRestController.class);
 
   ProjectAdminRestController(ProjectRepository projectRepository, SchedulerFactoryBean schedulerFactoryBean,
       UserRepository userRepository)
@@ -116,7 +121,6 @@ public class ProjectAdminRestController {
           .build();
 
       job.getJobDataMap().put("project_id", project.getId());
-      job.getJobDataMap().put("report_interval", project.getReportInterval().getHours());
 
       Trigger trigger = TriggerBuilder
           .newTrigger()
@@ -128,7 +132,6 @@ public class ProjectAdminRestController {
                   .withMisfireHandlingInstructionFireNow()
           )
           .build();
-
 
       scheduler.scheduleJob(job, trigger);
 
@@ -151,9 +154,10 @@ public class ProjectAdminRestController {
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @PostMapping("/api/admin/project/edit")
-  public ResponseEntity editProject(Integer id, String name, String description, ReportInterval reportInterval, Date startDate, Date endDate) {
+  public ResponseEntity editProject(Integer id, String name, String description, ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
 
     try {
+      Scheduler scheduler = schedulerFactoryBean.getScheduler();
       Optional<Project> project = projectRepository.findById(id);
       if (project.isEmpty()) {
         return new ResponseEntity<>("Project not found", HttpStatus.BAD_REQUEST);
@@ -166,6 +170,23 @@ public class ProjectAdminRestController {
       projectObj.setEndDate(endDate);
 
       projectRepository.save(projectObj);
+
+      Trigger oldTrigger = scheduler.getTrigger(
+          TriggerKey.triggerKey(name + "_" + projectObj.getId() + "_report_trigger", "reports"));
+
+      TriggerBuilder newTriggerBuilder = oldTrigger.getTriggerBuilder();
+
+      Trigger newTrigger = newTriggerBuilder
+          .startAt(startDate)
+          .endAt(endDate)
+          .withSchedule(
+              simpleSchedule().withIntervalInHours(reportInterval.getHours()).repeatForever()
+                  .withMisfireHandlingInstructionFireNow()
+          )
+          .build();
+
+      scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
+
       return new ResponseEntity<>(project, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>("Error creating project", HttpStatus.BAD_REQUEST);

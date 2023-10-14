@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -45,15 +46,19 @@
 </main>
 
 <script>
+
   $(document).ready(function () {
-    let startDate = Date.parse("${project.startDate}");
-    let endDate = Date.parse("${project.endDate}");
+    let startDate = new Date("<fmt:formatDate value="${project.startDate}" pattern="yyyy-MM-dd HH:mm:ss" />");
+    let endDate = new Date("<fmt:formatDate value="${project.endDate}" pattern="yyyy-MM-dd HH:mm:ss" />");
+
+    console.log(startDate);
 
     /////// FIXA DETTA DSAKJBDASKJNSADKJNADSADSJKADSJKADSHJKKHJ
     $('input[name="datefilter"]').daterangepicker({
-      "startDate": startDate,
-      "endDate": endDate,
       autoUpdateInput: true,
+      timePicker: true,
+      startDate: startDate,
+      endDate: endDate,
       locale: {
         cancelLabel: 'Clear'
       }
@@ -61,8 +66,8 @@
 
     $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
       $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-      startDate = picker.startDate.format('MM/DD/YYYY');
-      endDate = picker.endDate.format('MM/DD/YYYY');
+      startDate = picker.startDate.toISOString();
+      endDate = picker.endDate.toISOString();
     });
 
     $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
@@ -99,3 +104,69 @@
     });
   });
 </script>
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    /* Darker Daterange Picker */
+    .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+      background-color: transparent;
+      color: rgba(200, 200, 200, 0.5);
+    }
+
+    .daterangepicker {
+      background-color: inherit;
+      color: #ebf4f0;
+    }
+
+    .daterangepicker .calendar-table {
+      background-color: transparent;
+    }
+
+    .datepicker.dropdown-menu table {
+      background-color: transparent;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+      background-color: rgba(37, 47, 57, 0.9);
+      color: #ebf4f8;
+    }
+
+    .daterangepicker td.in-range {
+      background-color: rgba(37, 47, 57, 0.9);
+      color: #ebf4f8;
+    }
+
+    .btn-success {
+      color: #fff;
+      background-color: inherit;
+      border-color: rgba(5, 150, 1, 0.8);
+    }
+
+    .btn-success.disabled, .btn-success[disabled], fieldset[disabled] .btn-success, .btn-success.disabled:hover, .btn-success[disabled]:hover, fieldset[disabled] .btn-success:hover, .btn-success.disabled:focus, .btn-success[disabled]:focus, fieldset[disabled] .btn-success:focus, .btn-success.disabled.focus, .btn-success[disabled].focus, fieldset[disabled] .btn-success.focus, .btn-success.disabled:active, .btn-success[disabled]:active, fieldset[disabled] .btn-success:active, .btn-success.disabled.active, .btn-success[disabled].active, fieldset[disabled] .btn-success.active {
+      color: #fff;
+      background-color: inherit;
+      border-color: rgba(5, 150, 1, 0.1);
+    }
+
+    .btn-default {
+      color: #fff;
+      background-color: inherit;
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .daterangepicker select.monthselect {
+      color: rgba(37, 47, 57, 0.9);
+    }
+
+    .daterangepicker select.yearselect {
+      color: rgba(37, 47, 57, 0.9);
+    }
+
+    .daterangepicker .input-mini {
+      color: #ebf4f8;
+    }
+    .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+</style>
