@@ -112,12 +112,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <groupId>org.junit.jupiter</groupId>
-      <scope>test</scope>
-      <version>5.10.0</version>
-    </dependency>
-    <dependency>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <groupId>org.springdoc</groupId>
       <version>2.2.0</version>
