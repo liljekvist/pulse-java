@@ -22,7 +22,6 @@
     </div>
 
     <form id="projectForm">
-        <h1>Edit Project</h1>
         <label for="id">Id:</label>
         <input type="text" id="id" name="id" value="${project.id}" required readonly><br><br>
         <label for="name">Name:</label>

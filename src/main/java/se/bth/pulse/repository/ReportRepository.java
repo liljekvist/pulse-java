@@ -16,4 +16,8 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
   List<Report> findAllByProjectUsersIn(List<User> users);
 
   Report findByIdAndProjectUsersIn(Integer id, List<User> users);
+
+  void deleteAllByProject(Project project);
+
+  Report getSingleByProjectOrderByDueDate(Project project);
 }

@@ -51,7 +51,7 @@ public class ProjectAdminController {
    * @param authentication  - used to get the username and role of the logged-in user
    * @return String         - the view to be rendered
    */
-  @GetMapping("/admin/projects/add")
+  @GetMapping("/admin/project/add")
   public String showAddProjects(Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
     model.addAttribute("role", authentication.getAuthorities().toString());
@@ -69,7 +69,7 @@ public class ProjectAdminController {
    * @param authentication  - used to get the username and role of the logged-in user
    * @return String         - the view to be rendered
    */
-  @GetMapping("/admin/projects/edit/{id}")
+  @GetMapping("/admin/project/edit/{id}")
   public String showEditProjects(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
     model.addAttribute("role", authentication.getAuthorities().toString());
@@ -88,13 +88,22 @@ public class ProjectAdminController {
    * @param authentication    - used to get the username and role of the logged-in user
    * @return String           - the view to be rendered
    */
-  @GetMapping("/admin/projects/users/{id}")
+  @GetMapping("/admin/project/users/{id}")
   public String showEditUsersProjects(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
     model.addAttribute("role", authentication.getAuthorities().toString());
     model.addAttribute("users", userRepository.findAll());
     projectRepository.findById(id).ifPresent(value -> model.addAttribute("project", value));
     model.addAttribute("content", "project-admin-users.jsp");
+    return "public/index";
+  }
+
+  @GetMapping("/admin/project/delete/{id}")
+  public String showDeleteProject(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+    model.addAttribute("user", authentication.getName());
+    model.addAttribute("role", authentication.getAuthorities().toString());
+    projectRepository.findById(id).ifPresent(value -> model.addAttribute("project", value));
+    model.addAttribute("content", "project-admin-delete.jsp");
     return "public/index";
   }
 }

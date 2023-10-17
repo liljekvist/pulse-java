@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
+<div class="sidebar border border-right col-md-3 col-lg-2 bg-body-tertiary">
     <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
          aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">

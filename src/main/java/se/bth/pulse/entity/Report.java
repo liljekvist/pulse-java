@@ -1,5 +1,6 @@
 package se.bth.pulse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,6 +22,7 @@ import org.hibernate.engine.jdbc.env.internal.LobTypes;
 @Getter
 @Entity(name = "Report")
 @Table(name = "Report")
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Report {
 
   public enum Status {
@@ -44,10 +46,10 @@ public class Report {
 
   private Status status;
 
-  @OneToMany(mappedBy = "report")
+  @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
   private List<ReportComment> comments;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   private Project project;
 
   public void setDueDate(Date dueDate) {
@@ -68,5 +70,9 @@ public class Report {
 
   public void setProject(Project project) {
     this.project = project;
+  }
+
+  public void addComment(ReportComment comment) {
+    this.comments.add(comment);
   }
 }

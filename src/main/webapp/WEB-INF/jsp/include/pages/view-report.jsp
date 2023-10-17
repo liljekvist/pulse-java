@@ -24,26 +24,35 @@
 
     <button id="save-button" class="btn btn-primary">Save</button>
 
-    <h3>Comments:</h3>
+    <h4 class="mt-5">Comments:</h4>
+
+    <c:forEach items="${report.comments}" var="_comment">
+        <div id="comment-editor-${_comment.id}" style="height: 150px; margin-bottom: 20px"></div>
+    </c:forEach>
 
 
 </main>
 
 <script>
 
+  $(document).ready(function () {
+
   var quill = new Quill('#editor', {
     theme: 'snow'
   });
-
-  const saveButton = document.getElementById('save-button');
 
   quill.setContents(${report.content});
 
 
   $("#save-button").click(function (e) {
+
+    let quillContent = JSON.stringify(quill.getContents());
+
+    quillContent = quillContent.replace(/<(?:.|\n)*?>/gm, ' ');
+
     let data = {
       id: ${report.id},
-      content: JSON.stringify(quill.getContents())
+      content: quillContent
     }
     e.preventDefault();
 
@@ -67,4 +76,17 @@
 
   })
 
+  <c:forEach items="${report.comments}" var="_comment">
+  var quillComment${_comment.id} = new Quill('#comment-editor-${_comment.id}', {
+    readOnly: true,
+    prefix: "qe",
+    modules: {
+      toolbar: false    // Snow includes toolbar by default
+    },
+    theme: 'snow'
+  });
+  quillComment${_comment.id}.setContents(${_comment.content});
+  </c:forEach>
+
+  });
 </script>

@@ -5,6 +5,9 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +29,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +38,9 @@ import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.Project.ReportInterval;
 import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.ProjectRepository;
+import se.bth.pulse.repository.ReportRepository;
 import se.bth.pulse.repository.UserRepository;
+import se.bth.pulse.utility.EmailReminderJob;
 import se.bth.pulse.utility.ReportJob;
 
 /**
@@ -50,11 +57,14 @@ public class ProjectAdminRestController {
 
   private final UserRepository userRepository;
 
+  private final ReportRepository reportRepository;
+
   Logger logger = LoggerFactory.getLogger(ProjectAdminRestController.class);
 
   ProjectAdminRestController(ProjectRepository projectRepository, SchedulerFactoryBean schedulerFactoryBean,
-      UserRepository userRepository)
+      UserRepository userRepository, ReportRepository reportRepository)
       throws SchedulerException {
+    this.reportRepository = reportRepository;
     this.schedulerFactoryBean = schedulerFactoryBean;
     this.projectRepository = projectRepository;
     this.userRepository = userRepository;
@@ -114,30 +124,66 @@ public class ProjectAdminRestController {
       projectRepository.save(project);
 
 
-      JobKey jobKey = new JobKey(name + "_" + project.getId() + "_reports", "reports");
+      JobKey jobKey = new JobKey(project.getId() + "_reports", project.getId() + "_report_group");
       JobDetail job = JobBuilder.newJob(ReportJob.class)
           .usingJobData("project_id", project.getId())
           .withIdentity(jobKey)
+          .storeDurably(true)
           .build();
 
       job.getJobDataMap().put("project_id", project.getId());
 
       Trigger trigger = TriggerBuilder
           .newTrigger()
-          .withIdentity(name + "_" + project.getId() + "_report_trigger", "reports")
+          .withIdentity(project.getId() + "_report_trigger", project.getId() + "_report_group_trigger")
           .startAt(startDate)
           .endAt(endDate)
+          .withPriority(2)
           .withSchedule(
-              simpleSchedule().withIntervalInHours(reportInterval.getHours()).repeatForever()
+              simpleSchedule().withIntervalInHours(reportInterval.getHours())
                   .withMisfireHandlingInstructionFireNow()
+                  .repeatForever()
+                  .withRepeatCount(-1)
           )
           .build();
 
-      scheduler.scheduleJob(job, trigger);
+      var date = scheduler.scheduleJob(job, trigger);
+
+      JobKey jobKeyReminder = new JobKey(project.getId() + "_reports_reminder", project.getId() + "_report_reminder_group");
+      JobDetail jobReminder = JobBuilder.newJob(EmailReminderJob.class)
+          .usingJobData("project_id", project.getId())
+          .storeDurably(true)
+          .withIdentity(jobKeyReminder)
+          .build();
+
+      jobReminder.getJobDataMap().put("project_id", project.getId());
+
+      LocalDateTime updatedTime;
+      LocalDateTime dateTime = startDate.toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDateTime();
+
+      updatedTime = dateTime.minusHours(24);
+
+      Trigger triggerReminder = TriggerBuilder
+          .newTrigger()
+          .withIdentity(project.getId() + "_report_trigger_reminder", project.getId() + "_report_reminder_group_trigger")
+          .startAt(Timestamp.valueOf(updatedTime))
+          .endAt(endDate)
+          .withPriority(1)
+          .withSchedule(
+              simpleSchedule().withIntervalInHours(reportInterval.getHours())
+                  .withMisfireHandlingInstructionFireNow()
+                  .repeatForever()
+                  .withRepeatCount(-1)
+          )
+          .build();
+
+      scheduler.scheduleJob(jobReminder, triggerReminder);
 
       return new ResponseEntity<>(project, HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>("Error creating project", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -172,7 +218,7 @@ public class ProjectAdminRestController {
       projectRepository.save(projectObj);
 
       Trigger oldTrigger = scheduler.getTrigger(
-          TriggerKey.triggerKey(name + "_" + projectObj.getId() + "_report_trigger", "reports"));
+          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger", projectObj.getId() + "_report_group_trigger"));
 
       TriggerBuilder newTriggerBuilder = oldTrigger.getTriggerBuilder();
 
@@ -187,9 +233,32 @@ public class ProjectAdminRestController {
 
       scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
 
+      Trigger oldTriggerEmail = scheduler.getTrigger(
+          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger_reminder", projectObj.getId() + "_report_reminder_group_trigger"));
+
+      TriggerBuilder newTriggerBuilderEmail = oldTriggerEmail.getTriggerBuilder();
+
+      LocalDateTime updatedTime;
+      LocalDateTime dateTime = startDate.toInstant()
+          .atZone(ZoneId.systemDefault())
+          .toLocalDateTime();
+
+      updatedTime = dateTime.minusHours(24);
+
+      Trigger newTriggerEmail = newTriggerBuilderEmail
+          .startAt(Timestamp.valueOf(updatedTime))
+          .endAt(endDate)
+          .withSchedule(
+              simpleSchedule().withIntervalInHours(reportInterval.getHours()).repeatForever()
+                  .withMisfireHandlingInstructionFireNow()
+          )
+          .build();
+
+      scheduler.rescheduleJob(oldTriggerEmail.getKey(), newTriggerEmail);
+
       return new ResponseEntity<>(project, HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>("Error creating project", HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -225,4 +294,33 @@ public class ProjectAdminRestController {
       return new ResponseEntity<>("Error editing project", HttpStatus.BAD_REQUEST);
     }
   }
+
+  @Transactional
+  @PostMapping("/api/admin/project/delete/{id}")
+  public ResponseEntity deleteUser(@PathVariable("id") Integer id) {
+    try {
+      Optional<Project> project = projectRepository.findById(id);
+      if (project.isPresent()) {
+        Project p = project.get();
+
+        reportRepository.deleteAllByProject(p);
+
+        projectRepository.delete(p);
+
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        scheduler.deleteJob(new JobKey(p.getId() + "_reports", p.getId() + "_report_group"));
+
+        scheduler.deleteJob(new JobKey(p.getId() + "_reports_reminder", p.getId() + "_report_reminder_group"));
+
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+      } else {
+        throw new IllegalArgumentException("User not found");
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
 }

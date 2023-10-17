@@ -53,7 +53,7 @@
 <% } %>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row flex-fill">
 
         <% if (!(request.getAttribute("content") == "signin.jsp"
                 || request.getAttribute("content") == "setup.jsp")) { %>

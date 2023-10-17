@@ -1,9 +1,12 @@
 package se.bth.pulse.controller;
 
+import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.UserRepository;
 
 /**
@@ -33,6 +36,24 @@ public class UserAdminController {
     model.addAttribute("users", userRepository.findAll());
     model.addAttribute("role", authentication.getAuthorities().toString());
     model.addAttribute("content", "user-admin.jsp");
+    return "public/index";
+  }
+
+  @GetMapping("/admin/user/edit/{id}")
+  public String editUser(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+    model.addAttribute("user", authentication.getName());
+    userRepository.findById(id).ifPresent(value -> model.addAttribute("editUser", value));
+    model.addAttribute("role", authentication.getAuthorities().toString());
+    model.addAttribute("content", "user-admin-edit.jsp");
+    return "public/index";
+  }
+
+  @GetMapping("/admin/user/disable/{id}")
+  public String disableUser(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+    model.addAttribute("user", authentication.getName());
+    userRepository.findById(id).ifPresent(value -> model.addAttribute("editUser", value));
+    model.addAttribute("role", authentication.getAuthorities().toString());
+    model.addAttribute("content", "user-admin-disable.jsp");
     return "public/index";
   }
 }

@@ -29,22 +29,27 @@ public class ReportJob implements Job {
   private ReportRepository reportRepository;
 
   public void execute(JobExecutionContext context) throws JobExecutionException {
-    LocalDateTime now = LocalDateTime.now();
-    DayOfWeek dow = now.getDayOfWeek();
+    logger.info("Report job started");
+    try {
+      LocalDateTime now = LocalDateTime.now();
+      DayOfWeek dow = now.getDayOfWeek();
 
-    if(dow == DayOfWeek.SATURDAY || dow == DayOfWeek.SUNDAY) {
-      return;
+      if (dow == DayOfWeek.SATURDAY || dow == DayOfWeek.SUNDAY) {
+        return;
+      }
+
+      JobDataMap dataMap = context.getJobDetail().getJobDataMap();
+      int id = dataMap.getInt("project_id");
+      projectRepository.findById(id).ifPresent(project -> {
+        Report report = new Report();
+        report.setDueDate(context.getTrigger().getNextFireTime());
+        report.setName("Report for " + project.getName());
+        report.setStatus(Status.MISSING);
+        report.setProject(project);
+        reportRepository.save(report);
+      });
+    } catch (Exception e) {
+      logger.error(e.getMessage());
     }
-
-    JobDataMap dataMap = context.getJobDetail().getJobDataMap();
-    int id = dataMap.getInt("project_id");
-    projectRepository.findById(id).ifPresent(project -> {
-      Report report = new Report();
-      report.setDueDate(context.getTrigger().getNextFireTime());
-      report.setName("Report for " + project.getName());
-      report.setStatus(Status.MISSING);
-      report.setProject(project);
-      reportRepository.save(report);
-    });
   }
 }

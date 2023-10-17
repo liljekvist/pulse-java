@@ -30,7 +30,7 @@ import lombok.Getter;
 @Getter
 @Entity(name = "Project")
 @Table(name = "Project")
-@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Project.class)
 public class Project {
 
   /**

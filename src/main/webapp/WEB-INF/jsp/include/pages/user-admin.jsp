@@ -7,6 +7,7 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">User Management</h1>
@@ -21,6 +22,7 @@
                 <th>Lastname</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Disabled</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -32,9 +34,10 @@
                     <td>${_user.lastname}</td>
                     <td>${_user.email}</td>
                     <td>${_user.role.name}</td>
+                    <td>${!_user.enabled}</td>
                     <td>
                         <a href="/admin/user/edit/${_user.id}" class="btn btn-primary">Edit</a>
-                        <a href="/admin/user/delete/${_user.id}" class="btn btn-danger">Delete</a>
+                        <a href="/admin/user/disable/${_user.id}" class="btn btn-danger">Disable</a>
                     </td>
                 </tr>
             </c:forEach>

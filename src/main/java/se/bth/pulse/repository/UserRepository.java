@@ -1,9 +1,13 @@
 package se.bth.pulse.repository;
 
+import java.lang.reflect.Proxy;
+import java.util.List;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.User;
 
 /**
@@ -16,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
   @Query("SELECT u FROM User u WHERE u.email = :username")
   User getUserByUsername(@Param("username") String username);
+
+  List<User> findByProjects(Project project);
 
   User findByEmail(String email);
 }
