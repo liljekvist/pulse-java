@@ -21,8 +21,8 @@ Oppen the folder as a project and configure a build configuration. Set it as mav
 ## Before first startup
 
 ### Requirements
-* Java 20
-* Maven
+* Java 20 (should be in path)
+* Maven (should be in path)
 * Mariadb with a login (other databases may work but are not tested due to hibernate creating the schema.)
 
 
@@ -69,4 +69,12 @@ spring.quartz.properties.org.quartz.jobStore.isClustered=false
 ### File structure
 Drag config and war file to a directory. The direcotry should look like this:
 ![image](https://github.com/liljekvist/pulse-java/assets/38380471/eb483728-8437-4c87-ac65-e3cc25a11729)
+
+
+## Running the application
+To run the application use the java command like this
+```
+java -jar .\pulse-0.0.1-SNAPSHOT.war
+```
+
 
