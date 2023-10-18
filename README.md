@@ -23,10 +23,18 @@ Oppen the folder as a project and configure a build configuration. Set it as mav
 ### Requirements
 * Java 20 (should be in path)
 * Maven (should be in path)
-* Mariadb with a login (other databases may work but are not tested due to hibernate creating the schema.)
+* Mariadb with a login (other database vendors may work but are not tested due to hibernate creating the schema automatically.)
+
+#### Database setup
+There is a docker compose file in the repository that will setup a mariadb database. You may use it at your discretion. 
+Just remember that you need to create the database before running the application. This is an example how to do that.
+```
+DROP DATABASE IF EXISTS pulse;
+CREATE DATABASE pulse;
+```
 
 
-### Configurera din application.config
+### Confirgure application.config
 In the application.config the following information must be changed: Email account, database och quartz parameter. I have pasted a example config below, please use it. Some fields are obligatory. Remember to uncomment # spring.quartz.jdbc.initialize-schema=always before first launch and then follow the instructions in the config file.
 ```
 spring.jpa.hibernate.ddl-auto=update
