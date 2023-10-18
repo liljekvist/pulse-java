@@ -55,7 +55,7 @@ public class EmailReminderJob implements Job {
               message.setSubject("Pulse - Report reminder");
               message.setText(String.format(
                   "Hello %s,\n\nThis is a reminder to fill in your report for the project %s. Its due %s.\n\nBest regards,\nPulse team",
-                  user.getFirstname(), project.getName(), context.getNextFireTime()));
+                  user.getEmail(), project.getName(), context.getNextFireTime()));
               emailSender.send(message);
             } catch (Exception e) {
               logger.error("Error sending email: " + e.getMessage());
