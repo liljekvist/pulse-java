@@ -77,4 +77,7 @@ To run the application use the java command like this
 java -jar .\pulse-0.0.1-SNAPSHOT.war
 ```
 
+## For questions
+You can reach me at mibh22@student.bth.se
+
 
