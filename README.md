@@ -2,6 +2,10 @@
 
 Pulse (java version)
 
+## Documentation
+Javadoc can be found here: https://liljekvist.github.io/pulse-java/javadoc/
+Swagger can be enabled in application.config in a development enviroment.
+
 ## Code standard
 
 https://google.github.io/styleguide/javaguide.html
