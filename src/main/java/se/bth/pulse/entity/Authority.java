@@ -12,6 +12,10 @@ import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Getter;
 
+/**
+ * This is the entity class for the table Authority.
+ * It is used to hold the authorities that can be connected to the role.
+ */
 @Getter
 @Entity(name = "Authority")
 @Table(name = "authority")

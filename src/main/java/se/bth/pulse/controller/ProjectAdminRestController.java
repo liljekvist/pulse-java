@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -23,7 +22,6 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
@@ -295,6 +293,13 @@ public class ProjectAdminRestController {
     }
   }
 
+  /**
+   * Rest endpoint for deleting a project.
+   * It takes the id of the project to be deleted as a path variable.
+   *
+   * @param id                - the id of the project to be deleted
+   * @return ResponseEntity   - the response entity returned as a JSON object
+   */
   @Transactional
   @PostMapping("/api/admin/project/delete/{id}")
   public ResponseEntity deleteUser(@PathVariable("id") Integer id) {

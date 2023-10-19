@@ -6,6 +6,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+/**
+ * Configuration for the scheduler.
+ */
 public class SchedulerJobFactory extends SpringBeanJobFactory implements ApplicationContextAware {
 
   private AutowireCapableBeanFactory beanFactory;

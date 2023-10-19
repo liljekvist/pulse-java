@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.UserRepository;
 
+/**
+ * This class is a rest controller that serves the user admin page.
+ */
 @RestController
 public class UserAdminRestController {
 
@@ -22,10 +25,20 @@ public class UserAdminRestController {
     this.userRepository = userRepository;
   }
 
-  public void deleteUser(Integer id) {
-    userRepository.deleteById(id);
-  }
-
+  /**
+   * Used to update the users profile.
+   * The user is retrieved from the user repository using the id.
+   * The user firstname, lastname, email, phonenr and credentialsExpired are updated.
+   * To make the user change password the credentialsExpired is set to true.
+   *
+   * @param id - the id of the user to be edited
+   * @param firstname - the new firstname of the user
+   * @param lastname - the new lastname of the user
+   * @param email - the new email of the user
+   * @param phonenr - the new phonenr of the user
+   * @param credentialsExpired - the new credentialsExpired of the user
+   * @return ResponseEntity   - the response entity containing a success message if the user
+   */
   @PostMapping("/api/admin/user/edit")
   public ResponseEntity editUser(Integer id, String firstname, String lastname, String email, String phonenr, Boolean credentialsExpired) {
     try {
@@ -48,6 +61,12 @@ public class UserAdminRestController {
     }
   }
 
+  /**
+   * Used to disable a user permanently.
+   *
+   * @param id                - the id of the user to be enabled
+   * @return ResponseEntity   - the response entity containing a success message if the user
+   */
   @PostMapping("/api/admin/user/disable/{id}")
   public ResponseEntity disableUser(@PathVariable("id") Integer id) {
     try {

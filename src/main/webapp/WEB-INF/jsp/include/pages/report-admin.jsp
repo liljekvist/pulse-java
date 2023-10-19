@@ -1,8 +1,8 @@
-<%@ page import="java.util.Date" %>
-<%@ page import="se.bth.pulse.entity.Report" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.ZoneId" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.List" %>
+<%@ page import="se.bth.pulse.entity.Report" %>
 <%@ page import="se.bth.pulse.entity.Report.Status" %><%--
   Created by IntelliJ IDEA.
   User: mikae

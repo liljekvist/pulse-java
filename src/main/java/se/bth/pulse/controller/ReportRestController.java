@@ -1,36 +1,26 @@
 package se.bth.pulse.controller;
 
-import org.hibernate.engine.jdbc.NClobProxy;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import se.bth.pulse.entity.Report;
 import se.bth.pulse.entity.Report.Status;
-import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.ReportRepository;
 
+/**
+ * This class is a rest controller that serves the report page.
+ */
 @RestController
 public class ReportRestController {
 
   Logger logger = LoggerFactory.getLogger(ReportRestController.class);
 
-  private ProjectRepository projectRepository;
-
   private ReportRepository reportRepository;
 
-  ReportRestController(ProjectRepository projectRepository, ReportRepository reportRepository) {
-    this.projectRepository = projectRepository;
+  ReportRestController(ReportRepository reportRepository) {
     this.reportRepository = reportRepository;
   }
 
@@ -53,6 +43,15 @@ public class ReportRestController {
     }
   }
 
+  /**
+   * This method is used to submit a report.
+   * The report is retrieved from the report repository using the id.
+   * The report content is updated and the status is set to submitted.
+   * The report saves to the report repository.
+   *
+   * @param payload           - the payload containing the report id and content
+   * @return ResponseEntity   - the response entity containing a success message if the report
+   */
   @PostMapping("/api/public/report/")
   public ResponseEntity submitReport(@RequestBody Payload payload) {
     try {

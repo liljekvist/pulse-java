@@ -11,13 +11,10 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.sql.Clob;
-import java.sql.NClob;
 import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import org.hibernate.annotations.Nationalized;
-import org.hibernate.engine.jdbc.env.internal.LobTypes;
 
 @Getter
 @Entity(name = "Report")

@@ -1,12 +1,10 @@
 package se.bth.pulse.controller;
 
-import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.UserRepository;
 
 /**
@@ -39,6 +37,14 @@ public class UserAdminController {
     return "public/index";
   }
 
+  /**
+   * Views the page for editing users.
+   *
+   * @param id                - the id of the user to be edited
+   * @param model             - used to pass attributes to the view
+   * @param authentication    - used to get the username and role of the logged-in user
+   * @return String           - the view to be rendered
+   */
   @GetMapping("/admin/user/edit/{id}")
   public String editUser(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());
@@ -48,6 +54,15 @@ public class UserAdminController {
     return "public/index";
   }
 
+  /**
+   * Renders the page for disabling users.
+   * It's mostly a curtsey to the admin so they dont disable the wrong user.
+   *
+   * @param id                - the id of the user to be disabled
+   * @param model             - used to pass attributes to the view
+   * @param authentication    - used to get the username and role of the logged-in user
+   * @return String           - the view to be rendered
+   */
   @GetMapping("/admin/user/disable/{id}")
   public String disableUser(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());

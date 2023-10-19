@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.Report;
 import se.bth.pulse.entity.User;
-import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.ReportRepository;
 import se.bth.pulse.service.UserDetailsImpl;
 
@@ -22,11 +20,8 @@ public class ReportsController {
 
   private final ReportRepository reportRepository;
 
-  private final ProjectRepository projectRepository;
-
-  public ReportsController(ReportRepository reportRepository, ProjectRepository projectRepository) {
+  public ReportsController(ReportRepository reportRepository) {
     this.reportRepository = reportRepository;
-    this.projectRepository = projectRepository;
   }
 
 
@@ -51,6 +46,15 @@ public class ReportsController {
     return "public/index";
   }
 
+  /**
+   * Used to render a view for viewing a report.
+   * It uses the report repository to get the report with the given id.
+   *
+   * @param id                - the id of the report to be viewed
+   * @param model             - used to pass attributes to the view
+   * @param authentication    - used to get the username and role of the logged-in user
+   * @return String           - the view to be rendered
+   */
   @GetMapping("/report/{id}")
   public String showReport(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("username", authentication.getName());

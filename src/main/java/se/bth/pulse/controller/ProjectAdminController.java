@@ -1,12 +1,10 @@
 package se.bth.pulse.controller;
 
-import java.util.Optional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import se.bth.pulse.entity.Project;
 import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.UserRepository;
 
@@ -98,6 +96,17 @@ public class ProjectAdminController {
     return "public/index";
   }
 
+
+  /**
+   * This function is used to render the project admin page for deleting of a project.
+   * It uses the project repository to get the project with the given id.
+   * The id is passed as a path variable.
+   *
+   * @param id              - the id of the project to be deleted
+   * @param model           - used to pass attributes to the view
+   * @param authentication  - used to get the username and role of the logged-in user
+   * @return
+   */
   @GetMapping("/admin/project/delete/{id}")
   public String showDeleteProject(@PathVariable("id") Integer id, Model model, Authentication authentication) {
     model.addAttribute("user", authentication.getName());

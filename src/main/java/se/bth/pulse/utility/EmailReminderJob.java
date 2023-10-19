@@ -1,7 +1,5 @@
 package se.bth.pulse.utility;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -13,14 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import se.bth.pulse.entity.Report;
-import se.bth.pulse.entity.Report.Status;
 import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.ProjectRepository;
-import se.bth.pulse.repository.ReportRepository;
 import se.bth.pulse.repository.UserRepository;
 
+/**
+ * This class is used to send email reminders to users.
+ * It is scheduled to run 24 hours before a report is due.
+ * The job and trigger is created in the project admin controller.
+ */
 @Component
 public class EmailReminderJob implements Job {
 
@@ -33,11 +32,14 @@ public class EmailReminderJob implements Job {
   private JavaMailSender emailSender;
 
   @Autowired
-  private ReportRepository reportRepository;
-
-  @Autowired
   private UserRepository userRepository;
 
+  /**
+   * Is run when a job is set to be executed.
+   *
+   * @param context - The context of the job. Contains the project id.
+   * @throws JobExecutionException - If the job fails to execute.
+   */
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
     logger.info("Email reminder job started");
