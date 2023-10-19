@@ -8,6 +8,10 @@ https://google.github.io/styleguide/javaguide.html
 
 ## Build instructions
 
+### Prebuilt war
+In releases I have uploaded the latest compiled version of the application. You may skip this step and download it instead.
+If any problems occur I suggest building it yourself.
+
 ### mvn standalone
 Go to ./pulse-java and use to following command
 ```
