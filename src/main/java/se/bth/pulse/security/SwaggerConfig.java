@@ -9,4 +9,6 @@ import org.springframework.context.annotation.Configuration;
     type = SecuritySchemeType.HTTP,
     name = "basicAuth",
     scheme = "basic")
-public class SwaggerConfig {}
+public class SwaggerConfig {
+
+}

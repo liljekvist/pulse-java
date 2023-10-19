@@ -9,9 +9,8 @@ import se.bth.pulse.entity.User;
 import se.bth.pulse.repository.UserRepository;
 
 /**
- * This class is used by spring security to authenticate and authorize user.
- * It implements UserDetailsService interface to change the behaviour of
- * loadUserByUsername method.
+ * This class is used by spring security to authenticate and authorize user. It implements
+ * UserDetailsService interface to change the behaviour of loadUserByUsername method.
  **/
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

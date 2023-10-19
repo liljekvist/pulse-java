@@ -16,8 +16,8 @@ import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.ReportRepository;
 
 /**
- * This class is used to create reports for projects.
- * It is scheduled to run the same time the last report is due or when the project starts.
+ * This class is used to create reports for projects. It is scheduled to run the same time the last
+ * report is due or when the project starts.
  */
 @Component
 public class ReportJob implements Job {
@@ -33,8 +33,8 @@ public class ReportJob implements Job {
   /**
    * Is run when a job is set to be executed.
    *
-   * @param context                 - The context of the job. Contains the project id.
-   * @throws JobExecutionException  - If the job fails to execute.
+   * @param context - The context of the job. Contains the project id.
+   * @throws JobExecutionException - If the job fails to execute.
    */
   public void execute(JobExecutionContext context) throws JobExecutionException {
     logger.info("Report job started");

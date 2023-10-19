@@ -14,8 +14,8 @@ public class PasswordChangeController {
   /**
    * Shows the password change page to the user.
    *
-   * @param model           - used to pass attributes to the view
-   * @param authentication  - used to get the username of the logged-in user
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username of the logged-in user
    * @return String         - the name of the view to be rendered
    */
   @GetMapping("/change-password")

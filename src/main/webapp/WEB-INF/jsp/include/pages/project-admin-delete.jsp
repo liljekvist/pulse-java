@@ -24,10 +24,12 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="${project.name}" required><br><br>
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" value="${project.description}" required><br><br>
+        <input type="text" id="description" name="description" value="${project.description}"
+               required><br><br>
 
 
-        <h3>Deleting a project is a destructive and permanent action. Are you sure you want to disable this Project?</h3>
+        <h3>Deleting a project is a destructive and permanent action. Are you sure you want to
+            disable this Project?</h3>
         <button type="submit" id="submitButton" class="btn btn-danger">Disable project</button>
     </form>
     <p id="status"></p>

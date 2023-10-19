@@ -33,10 +33,10 @@
     let status = document.getElementById("status");
     $("#submit").click(function (e) {
       // check if passwords match
-        if ($("#password").val() !== $("#confirmPassword").val()) {
-            status.innerText = "Passwords do not match";
-            return;
-        }
+      if ($("#password").val() !== $("#confirmPassword").val()) {
+        status.innerText = "Passwords do not match";
+        return;
+      }
       e.preventDefault();
       $.ajax({
         type: "POST",

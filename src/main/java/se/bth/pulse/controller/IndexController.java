@@ -14,8 +14,8 @@ public class IndexController {
   /**
    * This method is used to render the index page.
    *
-   * @param model           - used to pass attributes to the view
-   * @param authentication  - used to get the username and role of the logged-in user
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
    * @return String         - the view to be rendered
    */
   @GetMapping("/")

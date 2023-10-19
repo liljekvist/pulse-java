@@ -12,14 +12,11 @@ import java.util.List;
 import lombok.Getter;
 
 /**
- * This is the entity class for the table Role.
- * This class models the table Roles meaning that each instance of this class represents
- * a row in the table.
- * Using this class the table is created.
- * This class is used to hold the roles that can be connected to the user.
- * The connection between user and role is a one-to-many relationship.
- * This means that one role can be connected to many users but one user can only be connected
- * to one role.
+ * This is the entity class for the table Role. This class models the table Roles meaning that each
+ * instance of this class represents a row in the table. Using this class the table is created. This
+ * class is used to hold the roles that can be connected to the user. The connection between user
+ * and role is a one-to-many relationship. This means that one role can be connected to many users
+ * but one user can only be connected to one role.
  */
 @Getter
 @Entity(name = "Role")

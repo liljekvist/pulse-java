@@ -26,21 +26,21 @@ public class UserAdminRestController {
   }
 
   /**
-   * Used to update the users profile.
-   * The user is retrieved from the user repository using the id.
-   * The user firstname, lastname, email, phonenr and credentialsExpired are updated.
-   * To make the user change password the credentialsExpired is set to true.
+   * Used to update the users profile. The user is retrieved from the user repository using the id.
+   * The user firstname, lastname, email, phonenr and credentialsExpired are updated. To make the
+   * user change password the credentialsExpired is set to true.
    *
-   * @param id - the id of the user to be edited
-   * @param firstname - the new firstname of the user
-   * @param lastname - the new lastname of the user
-   * @param email - the new email of the user
-   * @param phonenr - the new phonenr of the user
+   * @param id                 - the id of the user to be edited
+   * @param firstname          - the new firstname of the user
+   * @param lastname           - the new lastname of the user
+   * @param email              - the new email of the user
+   * @param phonenr            - the new phonenr of the user
    * @param credentialsExpired - the new credentialsExpired of the user
    * @return ResponseEntity   - the response entity containing a success message if the user
    */
   @PostMapping("/api/admin/user/edit")
-  public ResponseEntity editUser(Integer id, String firstname, String lastname, String email, String phonenr, Boolean credentialsExpired) {
+  public ResponseEntity editUser(Integer id, String firstname, String lastname, String email,
+      String phonenr, Boolean credentialsExpired) {
     try {
       Optional<User> user = userRepository.findById(id);
       if (user.isPresent()) {
@@ -64,7 +64,7 @@ public class UserAdminRestController {
   /**
    * Used to disable a user permanently.
    *
-   * @param id                - the id of the user to be enabled
+   * @param id - the id of the user to be enabled
    * @return ResponseEntity   - the response entity containing a success message if the user
    */
   @PostMapping("/api/admin/user/disable/{id}")

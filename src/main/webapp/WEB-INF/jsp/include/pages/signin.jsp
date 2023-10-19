@@ -35,7 +35,7 @@
             </label>
         </div>
 
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
         <%--        <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>--%>

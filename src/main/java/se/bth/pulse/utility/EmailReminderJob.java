@@ -16,9 +16,8 @@ import se.bth.pulse.repository.ProjectRepository;
 import se.bth.pulse.repository.UserRepository;
 
 /**
- * This class is used to send email reminders to users.
- * It is scheduled to run 24 hours before a report is due.
- * The job and trigger is created in the project admin controller.
+ * This class is used to send email reminders to users. It is scheduled to run 24 hours before a
+ * report is due. The job and trigger is created in the project admin controller.
  */
 @Component
 public class EmailReminderJob implements Job {

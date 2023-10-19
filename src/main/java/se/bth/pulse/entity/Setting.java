@@ -9,12 +9,10 @@ import lombok.Getter;
 
 
 /**
- * This is the entity class for the table Setting.
- * This class models the table Settings meaning that each instance of this class represents
- * a row in the table.
- * This table is intended to hold settings for the application.
- * The settings are stored as key-value pairs.
- * Using this class the table is created.
+ * This is the entity class for the table Setting. This class models the table Settings meaning that
+ * each instance of this class represents a row in the table. This table is intended to hold
+ * settings for the application. The settings are stored as key-value pairs. Using this class the
+ * table is created.
  */
 @Getter
 @Entity(name = "Setting")

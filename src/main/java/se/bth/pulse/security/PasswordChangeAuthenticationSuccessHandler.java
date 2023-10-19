@@ -10,8 +10,8 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import se.bth.pulse.service.UserDetailsImpl;
 
 /**
- * This class is used to redirect the user to the change password page if the user is logging in
- * for the first time. It uses the AuthenticationSuccessHandler interface to change the behaviour of
+ * This class is used to redirect the user to the change password page if the user is logging in for
+ * the first time. It uses the AuthenticationSuccessHandler interface to change the behaviour of
  * onAuthenticationSuccess method. It implements the interface to override the method. The method is
  * invoked from ApplicationSecurityConfig class.
  */
@@ -25,12 +25,12 @@ public class PasswordChangeAuthenticationSuccessHandler implements
    * This method is used to redirect the user to the change password page if the user is logging in
    * for the first time. It gets the username of the logged-in user from the authentication object.
    *
-   * @param request             - used to pass on any request after a successful login
-   * @param response            - used to redirect the user to the change password page if the user
-   *                              is logging in for the first time
-   * @param auth                - used to get the username of the logged-in user
-   * @throws IOException        - is thrown from the target onAuthenticationSuccess method.
-   * @throws ServletException   - is thrown from the target onAuthenticationSuccess method.
+   * @param request  - used to pass on any request after a successful login
+   * @param response - used to redirect the user to the change password page if the user is logging
+   *                 in for the first time
+   * @param auth     - used to get the username of the logged-in user
+   * @throws IOException      - is thrown from the target onAuthenticationSuccess method.
+   * @throws ServletException - is thrown from the target onAuthenticationSuccess method.
    */
   public void onAuthenticationSuccess(HttpServletRequest request,
       HttpServletResponse response, Authentication auth) throws IOException, ServletException {

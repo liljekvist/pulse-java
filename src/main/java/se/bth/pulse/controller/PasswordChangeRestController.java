@@ -20,23 +20,22 @@ import se.bth.pulse.service.UserDetailsImpl;
 @SecurityRequirement(name = "basicAuth")
 public class PasswordChangeRestController {
 
+  private final UserRepository userRepository;
+
   PasswordChangeRestController(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
-  private final UserRepository userRepository;
-
   /**
-   * This method is used to change the password of the logged-in user.
-   * It gets the username of the logged-in user from the authentication object.
-   * Then it gets the user object from the database using the username.
-   * Using the user object, it sets the new password and saves the user object.
+   * This method is used to change the password of the logged-in user. It gets the username of the
+   * logged-in user from the authentication object. Then it gets the user object from the database
+   * using the username. Using the user object, it sets the new password and saves the user object.
    * (Saving means updating the user object in the database when an id is already set)
    *
-   * @param password          - the new password
-   * @param authentication    - used to get the username of the logged-in user
-   * @return ResponseEntity   - the response entity containing a success message if the password
-   *                            was changed successfully, an error message otherwise.
+   * @param password       - the new password
+   * @param authentication - used to get the username of the logged-in user
+   * @return ResponseEntity   - the response entity containing a success message if the password was
+   * changed successfully, an error message otherwise.
    */
   @PostMapping(value = "/change-password")
   public ResponseEntity passwordChange(String password, Authentication authentication) {

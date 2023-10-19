@@ -138,7 +138,8 @@
     };
 
     submit.onclick = function () {
-      $("#loading").html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
+      $("#loading").html(
+          '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
       if (file_data == null) {
         alert("please drag and drop a file");
         return;

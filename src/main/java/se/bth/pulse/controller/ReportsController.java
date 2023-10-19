@@ -26,8 +26,8 @@ public class ReportsController {
 
 
   /**
-   * This serves the reports page to the user.
-   * The return string is the name of the view to be rendered.
+   * This serves the reports page to the user. The return string is the name of the view to be
+   * rendered.
    *
    * @param model          - used to pass attributes to the view
    * @param authentication - used to get the username and role of the logged-in user
@@ -47,16 +47,17 @@ public class ReportsController {
   }
 
   /**
-   * Used to render a view for viewing a report.
-   * It uses the report repository to get the report with the given id.
+   * Used to render a view for viewing a report. It uses the report repository to get the report
+   * with the given id.
    *
-   * @param id                - the id of the report to be viewed
-   * @param model             - used to pass attributes to the view
-   * @param authentication    - used to get the username and role of the logged-in user
+   * @param id             - the id of the report to be viewed
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
    * @return String           - the view to be rendered
    */
   @GetMapping("/report/{id}")
-  public String showReport(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+  public String showReport(@PathVariable("id") Integer id, Model model,
+      Authentication authentication) {
     model.addAttribute("username", authentication.getName());
     model.addAttribute("role", authentication.getAuthorities().toString());
     List<User> users = new ArrayList<>();

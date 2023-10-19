@@ -30,19 +30,18 @@ import se.bth.pulse.repository.RoleRepository;
 import se.bth.pulse.repository.UserRepository;
 
 /**
- * This class is a rest controller that serves the file page.
- * The page is only accessible if the user is logged in as an admin.
- * It is used to upload a csv file containing users.
+ * This class is a rest controller that serves the file page. The page is only accessible if the
+ * user is logged in as an admin. It is used to upload a csv file containing users.
  */
 @RestController
 @OpenAPIDefinition(info = @Info(title = "FileUserAdminRestController", version = "v1"))
 @SecurityRequirement(name = "basicAuth")
 public class FileUserAdminRestController {
 
-  Logger logger = LoggerFactory.getLogger(FileUserAdminRestController.class);
   private final UserRepository userRepository;
   private final RoleRepository roleRepository;
   private final JavaMailSender emailSender;
+  Logger logger = LoggerFactory.getLogger(FileUserAdminRestController.class);
 
   FileUserAdminRestController(
       UserRepository userRepository,
@@ -55,15 +54,14 @@ public class FileUserAdminRestController {
   }
 
   /**
-   * This method is used to check if the csv file is valid then convert it to a list of users.
-   * The list of users is then returned as a response entity. The response entity is represented
-   * as a json object.
+   * This method is used to check if the csv file is valid then convert it to a list of users. The
+   * list of users is then returned as a response entity. The response entity is represented as a
+   * json object.
    *
-   * @param file                      - the csv file containing the users
-   * @param request                   - used to get the csrf token
+   * @param file    - the csv file containing the users
+   * @param request - used to get the csrf token
    * @return ResponseEntity           - the response entity containing the users if the file is
-   *                                    valid, an error message otherwise.
-   *                                    It is represented as a json object.
+   * valid, an error message otherwise. It is represented as a json object.
    */
   @PostMapping(value = "/api/admin/file/check")
   public ResponseEntity<Object> check(@RequestBody String file, HttpServletRequest request) {
@@ -109,13 +107,12 @@ public class FileUserAdminRestController {
   }
 
   /**
-   * Takes a list of users and saves them to the database.
-   * The users are created with a random password and the role "default".
-   * The users are also sent an email with their password.
-   * The method is transactional, meaning that if an error occurs during the saving of the users,
-   * the database will roll back to the state before the method was called.
+   * Takes a list of users and saves them to the database. The users are created with a random
+   * password and the role "default". The users are also sent an email with their password. The
+   * method is transactional, meaning that if an error occurs during the saving of the users, the
+   * database will roll back to the state before the method was called.
    *
-   * @param userList                  - the list of users to be saved to the database
+   * @param userList - the list of users to be saved to the database
    * @return ResponseEntity           - Contains the status code of the request
    */
   @PostMapping(value = "/api/admin/file/upload", consumes = "application/json")

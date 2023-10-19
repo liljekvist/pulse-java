@@ -22,15 +22,20 @@
         <label for="id">Id:</label>
         <input type="text" id="id" name="id" value="${editUser.id}" required readonly><br><br>
         <label for="firstname">First name:</label>
-        <input type="text" id="firstname" name="firstname" value="${editUser.firstname}" required readonly><br><br>
+        <input type="text" id="firstname" name="firstname" value="${editUser.firstname}" required
+               readonly><br><br>
         <label for="lastname">Last name:</label>
-        <input type="text" id="lastname" name="lastname" value="${editUser.lastname}" required readonly><br><br>
+        <input type="text" id="lastname" name="lastname" value="${editUser.lastname}" required
+               readonly><br><br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="${editUser.email}" required readonly><br><br>
         <label for="phonenr">Phone number:</label>
-        <input type="text" id="phonenr" name="phonenr" value="${editUser.phonenr}" required readonly><br><br>
+        <input type="text" id="phonenr" name="phonenr" value="${editUser.phonenr}" required
+               readonly><br><br>
         <label for="credentialsExpired">Change password on next login:</label>
-        <input type="checkbox" id="credentialsExpired" name="credentialsExpired" <c:if test="${editUser.credentialsExpired}"> checked </c:if > onclick="return false;"><br><br>
+        <input type="checkbox" id="credentialsExpired" name="credentialsExpired"
+        <c:if test="${editUser.credentialsExpired}"> checked </c:if>
+               onclick="return false;"><br><br>
 
 
         <h3>Disabling a user is permanent. Are you sure you want to disable this user?</h3>

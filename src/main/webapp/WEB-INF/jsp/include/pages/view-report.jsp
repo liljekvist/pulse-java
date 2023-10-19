@@ -37,56 +37,55 @@
 
   $(document).ready(function () {
 
-  var quill = new Quill('#editor', {
-    theme: 'snow'
-  });
-
-  quill.setContents(${report.content});
-
-
-  $("#save-button").click(function (e) {
-
-    let quillContent = JSON.stringify(quill.getContents());
-
-    quillContent = quillContent.replace(/<(?:.|\n)*?>/gm, ' ');
-
-    let data = {
-      id: ${report.id},
-      content: quillContent
-    }
-    e.preventDefault();
-
-    $.ajax({
-      type: "POST",
-      url: "/api/public/report/",
-      data: JSON.stringify(data),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      headers: {
-        '${_csrf.headerName}': '${_csrf.token}'
-      },
-      success: function (data) {
-        console.log(data);
-        window.location.href = "/reports";
-      },
-      error: function (errMsg) {
-        console.error(errMsg);
-      }
+    var quill = new Quill('#editor', {
+      theme: 'snow'
     });
 
-  })
+    quill.setContents(${report.content});
 
-  <c:forEach items="${report.comments}" var="_comment">
-  var quillComment${_comment.id} = new Quill('#comment-editor-${_comment.id}', {
-    readOnly: true,
-    prefix: "qe",
-    modules: {
-      toolbar: false    // Snow includes toolbar by default
-    },
-    theme: 'snow'
-  });
-  quillComment${_comment.id}.setContents(${_comment.content});
-  </c:forEach>
+    $("#save-button").click(function (e) {
+
+      let quillContent = JSON.stringify(quill.getContents());
+
+      quillContent = quillContent.replace(/<(?:.|\n)*?>/gm, ' ');
+
+      let data = {
+        id: ${report.id},
+        content: quillContent
+      }
+      e.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "/api/public/report/",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+          '${_csrf.headerName}': '${_csrf.token}'
+        },
+        success: function (data) {
+          console.log(data);
+          window.location.href = "/reports";
+        },
+        error: function (errMsg) {
+          console.error(errMsg);
+        }
+      });
+
+    })
+
+    <c:forEach items="${report.comments}" var="_comment">
+    var quillComment${_comment.id} = new Quill('#comment-editor-${_comment.id}', {
+      readOnly: true,
+      prefix: "qe",
+      modules: {
+        toolbar: false    // Snow includes toolbar by default
+      },
+      theme: 'snow'
+    });
+    quillComment${_comment.id}.setContents(${_comment.content});
+    </c:forEach>
 
   });
 </script>

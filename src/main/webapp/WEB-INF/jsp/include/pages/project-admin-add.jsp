@@ -11,10 +11,12 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -37,7 +39,7 @@
         </select><br><br>
 
         <label for="datefilter">Report Day:</label>
-        <input type="text" name="datefilter" id="datefilter" value="" /><br><br>
+        <input type="text" name="datefilter" id="datefilter" value=""/><br><br>
 
         <input type="submit" id="submitButton" value="Submit">
     </form>
@@ -60,13 +62,14 @@
       }
     });
 
-    $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-        startDate = picker.startDate.toISOString();
-        endDate = picker.endDate.toISOString();
+    $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+      $(this).val(
+          picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+      startDate = picker.startDate.toISOString();
+      endDate = picker.endDate.toISOString();
     });
 
-    $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+    $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
       $(this).val('');
     });
     let status = document.getElementById("status");
@@ -159,6 +162,7 @@
     .daterangepicker .input-mini {
       color: #ebf4f8;
     }
+
     .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
       background: rgba(0, 0, 0, 0.1);
     }

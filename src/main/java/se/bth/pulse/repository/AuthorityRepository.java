@@ -8,6 +8,6 @@ import se.bth.pulse.entity.Authority;
  */
 public interface AuthorityRepository extends JpaRepository<Authority, Integer> {
 
-    Authority findByName(String name);
+  Authority findByName(String name);
 }
 

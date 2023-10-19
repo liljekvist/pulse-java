@@ -50,16 +50,13 @@ import se.bth.pulse.utility.ReportJob;
 public class ProjectAdminRestController {
 
   private final ProjectRepository projectRepository;
-
+  private final UserRepository userRepository;
+  private final ReportRepository reportRepository;
+  Logger logger = LoggerFactory.getLogger(ProjectAdminRestController.class);
   private SchedulerFactoryBean schedulerFactoryBean;
 
-  private final UserRepository userRepository;
-
-  private final ReportRepository reportRepository;
-
-  Logger logger = LoggerFactory.getLogger(ProjectAdminRestController.class);
-
-  ProjectAdminRestController(ProjectRepository projectRepository, SchedulerFactoryBean schedulerFactoryBean,
+  ProjectAdminRestController(ProjectRepository projectRepository,
+      SchedulerFactoryBean schedulerFactoryBean,
       UserRepository userRepository, ReportRepository reportRepository)
       throws SchedulerException {
     this.reportRepository = reportRepository;
@@ -69,47 +66,20 @@ public class ProjectAdminRestController {
   }
 
   /**
-   * This subclass is used to parse the JSON payload from the frontend.
-   * It is used in the editProjectUsers method.
-   * It contains the project id and a list of user ids.
-   */
-  private static class Payload {
-
-    public Payload() {}
-
-    private Integer id;
-    private ArrayList<Integer> userIds;
-
-    public void setUserIds(ArrayList<Integer> userIds) {
-      this.userIds = userIds;
-    }
-
-    public void setId(Integer id) {
-      this.id = id;
-    }
-
-    public ArrayList<Integer> getUserIds() {
-      return userIds;
-    }
-
-    public Integer getId() {
-      return id;
-    }
-  }
-
-  /**
-   * This method is used to create a new project.
-   * It takes the name, description, report interval and report day as parameters.
-   * It returns a response entity with the created project as a JSON object.
-   * If the project could not be created, it returns a response entity with an error message.
+   * This method is used to create a new project. It takes the name, description, report interval
+   * and report day as parameters. It returns a response entity with the created project as a JSON
+   * object. If the project could not be created, it returns a response entity with an error
+   * message.
    *
-   * @param name              - the name of the project
-   * @param description       - the description of the project
-   * @param reportInterval    - the report interval of the project
+   * @param name           - the name of the project
+   * @param description    - the description of the project
+   * @param reportInterval - the report interval of the project
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @PostMapping("/api/admin/project/add")
-  public ResponseEntity createProject(String name, String description, ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
+  public ResponseEntity createProject(String name, String description,
+      ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate,
+      @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
 
     Scheduler scheduler = schedulerFactoryBean.getScheduler();
     try {
@@ -120,7 +90,6 @@ public class ProjectAdminRestController {
       project.setStartDate(startDate);
       project.setEndDate(endDate);
       projectRepository.save(project);
-
 
       JobKey jobKey = new JobKey(project.getId() + "_reports", project.getId() + "_report_group");
       JobDetail job = JobBuilder.newJob(ReportJob.class)
@@ -133,7 +102,8 @@ public class ProjectAdminRestController {
 
       Trigger trigger = TriggerBuilder
           .newTrigger()
-          .withIdentity(project.getId() + "_report_trigger", project.getId() + "_report_group_trigger")
+          .withIdentity(project.getId() + "_report_trigger",
+              project.getId() + "_report_group_trigger")
           .startAt(startDate)
           .endAt(endDate)
           .withPriority(2)
@@ -147,7 +117,8 @@ public class ProjectAdminRestController {
 
       var date = scheduler.scheduleJob(job, trigger);
 
-      JobKey jobKeyReminder = new JobKey(project.getId() + "_reports_reminder", project.getId() + "_report_reminder_group");
+      JobKey jobKeyReminder = new JobKey(project.getId() + "_reports_reminder",
+          project.getId() + "_report_reminder_group");
       JobDetail jobReminder = JobBuilder.newJob(EmailReminderJob.class)
           .usingJobData("project_id", project.getId())
           .storeDurably(true)
@@ -165,7 +136,8 @@ public class ProjectAdminRestController {
 
       Trigger triggerReminder = TriggerBuilder
           .newTrigger()
-          .withIdentity(project.getId() + "_report_trigger_reminder", project.getId() + "_report_reminder_group_trigger")
+          .withIdentity(project.getId() + "_report_trigger_reminder",
+              project.getId() + "_report_reminder_group_trigger")
           .startAt(Timestamp.valueOf(updatedTime))
           .endAt(endDate)
           .withPriority(1)
@@ -186,19 +158,21 @@ public class ProjectAdminRestController {
   }
 
   /**
-   * This method is used to edit a project.
-   * It takes the id, name, description, report interval and report day as parameters.
-   * It returns a response entity with the edited project as a JSON object.
-   * If the project could not be edited, it returns a response entity with an error message.
+   * This method is used to edit a project. It takes the id, name, description, report interval and
+   * report day as parameters. It returns a response entity with the edited project as a JSON
+   * object. If the project could not be edited, it returns a response entity with an error
+   * message.
    *
-   * @param id                - the id of the project to be edited
-   * @param name              - the new or old name of the project
-   * @param description       - the new or old description of the project
-   * @param reportInterval    - the new or old report interval of the project
+   * @param id             - the id of the project to be edited
+   * @param name           - the new or old name of the project
+   * @param description    - the new or old description of the project
+   * @param reportInterval - the new or old report interval of the project
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @PostMapping("/api/admin/project/edit")
-  public ResponseEntity editProject(Integer id, String name, String description, ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate, @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
+  public ResponseEntity editProject(Integer id, String name, String description,
+      ReportInterval reportInterval, @DateTimeFormat(iso = ISO.DATE_TIME) Date startDate,
+      @DateTimeFormat(iso = ISO.DATE_TIME) Date endDate) {
 
     try {
       Scheduler scheduler = schedulerFactoryBean.getScheduler();
@@ -216,7 +190,8 @@ public class ProjectAdminRestController {
       projectRepository.save(projectObj);
 
       Trigger oldTrigger = scheduler.getTrigger(
-          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger", projectObj.getId() + "_report_group_trigger"));
+          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger",
+              projectObj.getId() + "_report_group_trigger"));
 
       TriggerBuilder newTriggerBuilder = oldTrigger.getTriggerBuilder();
 
@@ -232,7 +207,8 @@ public class ProjectAdminRestController {
       scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
 
       Trigger oldTriggerEmail = scheduler.getTrigger(
-          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger_reminder", projectObj.getId() + "_report_reminder_group_trigger"));
+          TriggerKey.triggerKey(projectObj.getId() + "_report_trigger_reminder",
+              projectObj.getId() + "_report_reminder_group_trigger"));
 
       TriggerBuilder newTriggerBuilderEmail = oldTriggerEmail.getTriggerBuilder();
 
@@ -261,18 +237,18 @@ public class ProjectAdminRestController {
   }
 
   /**
-   * This method is used to edit the users connected to a project.
-   * It takes the project id and a list of user ids as parameters.
-   * It returns a response entity with the edited project as a JSON object.
-   * If the project could not be edited, it returns a response entity with an error message.
+   * This method is used to edit the users connected to a project. It takes the project id and a
+   * list of user ids as parameters. It returns a response entity with the edited project as a JSON
+   * object. If the project could not be edited, it returns a response entity with an error
+   * message.
    *
    * @param payload - the payload containing the project id and a list of user ids
    * @return ResponseEntity - the response entity returned as a JSON object
    */
   @PostMapping(value = "/api/admin/project/users",
-                consumes = "application/json",
-                produces = "application/json"
-            )
+      consumes = "application/json",
+      produces = "application/json"
+  )
   public ResponseEntity editProjectUsers(@RequestBody Payload payload) {
 
     try {
@@ -294,10 +270,10 @@ public class ProjectAdminRestController {
   }
 
   /**
-   * Rest endpoint for deleting a project.
-   * It takes the id of the project to be deleted as a path variable.
+   * Rest endpoint for deleting a project. It takes the id of the project to be deleted as a path
+   * variable.
    *
-   * @param id                - the id of the project to be deleted
+   * @param id - the id of the project to be deleted
    * @return ResponseEntity   - the response entity returned as a JSON object
    */
   @Transactional
@@ -315,9 +291,8 @@ public class ProjectAdminRestController {
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
         scheduler.deleteJob(new JobKey(p.getId() + "_reports", p.getId() + "_report_group"));
 
-        scheduler.deleteJob(new JobKey(p.getId() + "_reports_reminder", p.getId() + "_report_reminder_group"));
-
-
+        scheduler.deleteJob(
+            new JobKey(p.getId() + "_reports_reminder", p.getId() + "_report_reminder_group"));
 
         return new ResponseEntity<>(HttpStatus.OK);
       } else {
@@ -325,6 +300,34 @@ public class ProjectAdminRestController {
       }
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * This subclass is used to parse the JSON payload from the frontend. It is used in the
+   * editProjectUsers method. It contains the project id and a list of user ids.
+   */
+  private static class Payload {
+
+    private Integer id;
+    private ArrayList<Integer> userIds;
+    public Payload() {
+    }
+
+    public ArrayList<Integer> getUserIds() {
+      return userIds;
+    }
+
+    public void setUserIds(ArrayList<Integer> userIds) {
+      this.userIds = userIds;
+    }
+
+    public Integer getId() {
+      return id;
+    }
+
+    public void setId(Integer id) {
+      this.id = id;
     }
   }
 

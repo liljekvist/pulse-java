@@ -10,10 +10,9 @@ import se.bth.pulse.entity.Authority;
 import se.bth.pulse.entity.User;
 
 /**
- * This class is used by spring security to authenticate and authorize user.
- * It implements UserDetails interface to change the behaviour of
- * getAuthorities method.
- * It also is used to change the underlying class to our User entity.
+ * This class is used by spring security to authenticate and authorize user. It implements
+ * UserDetails interface to change the behaviour of getAuthorities method. It also is used to change
+ * the underlying class to our User entity.
  */
 public class UserDetailsImpl implements UserDetails {
 

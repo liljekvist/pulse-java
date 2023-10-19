@@ -36,16 +36,17 @@
                 for (Report report : reports) {
                     java.time.LocalDateTime currentTime = java.time.LocalDateTime.now();
                     Date dueDate = report.getDueDate();
-                    LocalDateTime ldt = LocalDateTime.ofInstant(dueDate.toInstant(), ZoneId.systemDefault());
-                    java.time.Duration timeDifference = java.time.Duration.between(currentTime, ldt);
+                    LocalDateTime ldt = LocalDateTime.ofInstant(dueDate.toInstant(),
+                            ZoneId.systemDefault());
+                    java.time.Duration timeDifference = java.time.Duration.between(currentTime,
+                            ldt);
                     String statusColorClass;
 
-                    if( report.getStatus() == Status.SUBMITTED ){
+                    if (report.getStatus() == Status.SUBMITTED) {
                         statusColorClass = "text-info";
-                    } else if(report.getStatus() == Status.READ){
+                    } else if (report.getStatus() == Status.READ) {
                         statusColorClass = "text-primary";
-                    }
-                    else {
+                    } else {
                         if (timeDifference.toDays() < 0) {
                             statusColorClass = "text-danger";
                         } else if (timeDifference.toDays() == 0) {
@@ -56,7 +57,8 @@
                     }
             %>
 
-            <tr class="clickable-row" data-href="${pageContext.request.contextPath}/admin/report/<%= report.getId() %>">
+            <tr class="clickable-row"
+                data-href="${pageContext.request.contextPath}/admin/report/<%= report.getId() %>">
                 <td class="<%= statusColorClass %>">
                     <%= report.getStatus() %>
                 </td>
@@ -77,8 +79,8 @@
 
 <script>
 
-  jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
+  jQuery(document).ready(function ($) {
+    $(".clickable-row").click(function () {
       window.location = $(this).data("href");
     });
   });
@@ -87,6 +89,8 @@
 
 <style>
 
-  [data-href] { cursor: pointer; }
+  [data-href] {
+    cursor: pointer;
+  }
 
 </style>

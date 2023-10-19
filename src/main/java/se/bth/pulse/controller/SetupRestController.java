@@ -23,13 +23,10 @@ import se.bth.pulse.repository.SettingRepository;
 import se.bth.pulse.repository.UserRepository;
 
 /**
- * This class is a rest controller that serves the setup page.
- * The page is only accessible if the setup is not done.
- * It is used to configure the application. Specifically, it is used to:
- * - configure the settings
- * - configure the admin account
- * - configure the admin role
- * - configure the default role
+ * This class is a rest controller that serves the setup page. The page is only accessible if the
+ * setup is not done. It is used to configure the application. Specifically, it is used to: -
+ * configure the settings - configure the admin account - configure the admin role - configure the
+ * default role
  */
 @RestController
 @OpenAPIDefinition(info = @Info(title = "SetupRestController", version = "v1"))
@@ -43,12 +40,12 @@ public class SetupRestController {
   private final AuthorityRepository authorityRepository;
 
   /**
-   * Sets the repositories using dependency injection.
-   * Spring automatically creates instances of the repositories then passes them to the constructor.
+   * Sets the repositories using dependency injection. Spring automatically creates instances of the
+   * repositories then passes them to the constructor.
    *
-   * @param settingRepository   - used to interact with the table Setting.
-   * @param userRepository      - used to interact with the table User.
-   * @param roleRepository      - used to interact with the table Role.
+   * @param settingRepository - used to interact with the table Setting.
+   * @param userRepository    - used to interact with the table User.
+   * @param roleRepository    - used to interact with the table Role.
    */
   public SetupRestController(SettingRepository settingRepository, UserRepository userRepository,
       RoleRepository roleRepository, AuthorityRepository authorityRepository) {
@@ -83,14 +80,14 @@ public class SetupRestController {
   }
 
   /**
-   * Configures the admin account and saves it to the database.
-   * The admin account is used to log in to the application.
+   * Configures the admin account and saves it to the database. The admin account is used to log in
+   * to the application.
    *
-   * @param email                       - the email of the admin account
-   * @param password                    - the password of the admin account
+   * @param email    - the email of the admin account
+   * @param password - the password of the admin account
    * @return ResponseEntity             - A response entity with the admin account if the account
-   *                                      was created successfully, an error message otherwise.
-   *                                      The response entity is used to return a JSON object.
+   * was created successfully, an error message otherwise. The response entity is used to return a
+   * JSON object.
    */
   @PostMapping(value = "/api/setup/configure_admin_account", produces = "application/json")
   public ResponseEntity<Object> configureAdminAccount(@RequestParam("email") String email,
@@ -105,7 +102,7 @@ public class SetupRestController {
 
       Authority defaultAuth = new Authority();
       defaultAuth.setName("default");
-      
+
       auths.add(defaultAuth);
 
       auths = authorityRepository.saveAll(auths);

@@ -17,7 +17,8 @@
         <h1 class="h2">Project Management</h1>
     </div>
 
-    <a href="${pageContext.request.contextPath}/admin/project/add" class="btn btn-primary">Add Project</a>
+    <a href="${pageContext.request.contextPath}/admin/project/add" class="btn btn-primary">Add
+        Project</a>
 
     <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -42,9 +43,12 @@
                     <td>${_project.startDate}</td>
                     <td>${_project.endDate}</td>
                     <td>
-                        <a href="/admin/project/users/${_project.id}" class="btn btn-primary">Users</a>
-                        <a href="/admin/project/edit/${_project.id}" class="btn btn-primary">Edit</a>
-                        <a href="/admin/project/delete/${_project.id}" class="btn btn-danger">Delete</a>
+                        <a href="/admin/project/users/${_project.id}"
+                           class="btn btn-primary">Users</a>
+                        <a href="/admin/project/edit/${_project.id}"
+                           class="btn btn-primary">Edit</a>
+                        <a href="/admin/project/delete/${_project.id}"
+                           class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

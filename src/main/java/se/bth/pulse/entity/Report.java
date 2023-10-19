@@ -22,30 +22,18 @@ import org.hibernate.annotations.Nationalized;
 @JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Report {
 
-  public enum Status {
-    MISSING,
-    SUBMITTED,
-    READ
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   private Date dueDate;
-
   private String name;
-
   @Nationalized
   @Lob
   @Column(columnDefinition = "LONGTEXT")
   private String content;
-
   private Status status;
-
   @OneToMany(mappedBy = "report", fetch = FetchType.LAZY)
   private List<ReportComment> comments;
-
   @ManyToOne
   private Project project;
 
@@ -71,5 +59,11 @@ public class Report {
 
   public void addComment(ReportComment comment) {
     this.comments.add(comment);
+  }
+
+  public enum Status {
+    MISSING,
+    SUBMITTED,
+    READ
   }
 }

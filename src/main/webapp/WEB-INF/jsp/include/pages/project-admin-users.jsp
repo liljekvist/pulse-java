@@ -13,11 +13,12 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
         crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
 
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -29,9 +30,11 @@
         <h1>Edit and add users to project</h1>
         <input type="text" id="id" name="id" value="${project.id}" hidden readonly><br><br>
 
-        <select class="js-example-basic-multiple w-auto" name="user_ids" id="user_ids" multiple="multiple">
+        <select class="js-example-basic-multiple w-auto" name="user_ids" id="user_ids"
+                multiple="multiple">
             <c:forEach items="${users}" var="user">
-                <option value="${user.id}" <c:if test="${html:containsUser(project.users, user.id)}">selected="selected"</c:if> >${user.email}</option>
+                <option value="${user.id}"
+                        <c:if test="${html:containsUser(project.users, user.id)}">selected="selected"</c:if> >${user.email}</option>
             </c:forEach>
         </select>
 
@@ -60,7 +63,7 @@
         url: "/api/admin/project/users",
         dataType: 'json',
         contentType: 'application/json',
-        data: JSON.stringify( data),
+        data: JSON.stringify(data),
         headers: {
           '${_csrf.headerName}': '${_csrf.token}'
         },

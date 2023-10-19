@@ -21,7 +21,10 @@
         <h4>Date due: ${report.dueDate}</h4>
     </div>
     <% Report report = (Report) request.getAttribute("report"); %>
-    <button id="read-button" class="btn btn-primary <% if(report.getStatus() == Status.READ) { %> disabled <% } %>"> <% if(report.getStatus() == Status.READ) { %> Marked as read <% } else {%> Mark as read <% } %></button>
+    <button id="read-button"
+            class="btn btn-primary <% if(report.getStatus() == Status.READ) { %> disabled <% } %>"><% if (
+            report.getStatus() == Status.READ) { %> Marked as read <% } else {%> Mark as
+        read <% } %></button>
 
     <div class="ql-container" style="height: 300px">
         <div id="editor" style="height: 300px"></div>
@@ -38,25 +41,25 @@
 <script>
   $(document).ready(function () {
 
-  var quillComment = new Quill('#comment-editor-add', {
-    readOnly: false,
-    prefix: "qa",
-    modules: {
-      toolbar: true    // Snow includes toolbar by default
-    },
-    theme: 'snow'
-  });
+    var quillComment = new Quill('#comment-editor-add', {
+      readOnly: false,
+      prefix: "qa",
+      modules: {
+        toolbar: true    // Snow includes toolbar by default
+      },
+      theme: 'snow'
+    });
 
     console.log("ready2!");
-  var quill = new Quill('#editor', {
-    readOnly: true,
-    modules: {
-      toolbar: false    // Snow includes toolbar by default
-    },
-    theme: 'snow'
-  });
+    var quill = new Quill('#editor', {
+      readOnly: true,
+      modules: {
+        toolbar: false    // Snow includes toolbar by default
+      },
+      theme: 'snow'
+    });
     console.log("ready3!");
-  quill.setContents(${report.content});
+    quill.setContents(${report.content});
 
     $("#read-button").click(function (e) {
       e.preventDefault();
@@ -104,7 +107,7 @@
       });
     });
 
-<c:forEach items="${report.comments}" var="_comment">
+    <c:forEach items="${report.comments}" var="_comment">
     var quillComment${_comment.id} = new Quill('#comment-editor-${_comment.id}', {
       readOnly: true,
       prefix: "qe",
@@ -113,7 +116,7 @@
       },
       theme: 'snow'
     });
-      quillComment${_comment.id}.setContents(${_comment.content});
+    quillComment${_comment.id}.setContents(${_comment.content});
     </c:forEach>
   });
 </script>

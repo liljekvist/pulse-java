@@ -24,32 +24,12 @@ public class ReportRestController {
     this.reportRepository = reportRepository;
   }
 
-  private static class Payload {
-
-    public Payload() {}
-    private Integer id;
-    private String content;
-    public void setId(Integer id) {
-      this.id = id;
-    }
-    public void setContent(String content) {
-      this.content = content;
-    }
-    public Integer getId() {
-      return id;
-    }
-    public String getContent() {
-      return content;
-    }
-  }
-
   /**
-   * This method is used to submit a report.
-   * The report is retrieved from the report repository using the id.
-   * The report content is updated and the status is set to submitted.
-   * The report saves to the report repository.
+   * This method is used to submit a report. The report is retrieved from the report repository
+   * using the id. The report content is updated and the status is set to submitted. The report
+   * saves to the report repository.
    *
-   * @param payload           - the payload containing the report id and content
+   * @param payload - the payload containing the report id and content
    * @return ResponseEntity   - the response entity containing a success message if the report
    */
   @PostMapping("/api/public/report/")
@@ -60,10 +40,34 @@ public class ReportRestController {
         report.setStatus(Status.SUBMITTED);
         reportRepository.save(report);
       });
-      return new ResponseEntity<>(payload.getContent(),HttpStatus.OK);
+      return new ResponseEntity<>(payload.getContent(), HttpStatus.OK);
     } catch (Exception e) {
       logger.error(e.getMessage());
       return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private static class Payload {
+
+    private Integer id;
+    private String content;
+    public Payload() {
+    }
+
+    public Integer getId() {
+      return id;
+    }
+
+    public void setId(Integer id) {
+      this.id = id;
+    }
+
+    public String getContent() {
+      return content;
+    }
+
+    public void setContent(String content) {
+      this.content = content;
     }
   }
 

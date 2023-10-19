@@ -9,9 +9,8 @@ import se.bth.pulse.entity.Project;
 import se.bth.pulse.entity.User;
 
 /**
- * This interface is used to interact with the table User.
- * Using JpaRepository we can perform CRUD operations.
- * We can also define custom methods here with querys.
+ * This interface is used to interact with the table User. Using JpaRepository we can perform CRUD
+ * operations. We can also define custom methods here with querys.
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {

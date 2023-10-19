@@ -11,8 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 /**
- * WebMvcConfig class.
- * Configures the view resolver and resource handlers.
+ * WebMvcConfig class. Configures the view resolver and resource handlers.
  */
 @Configuration
 @EnableWebMvc

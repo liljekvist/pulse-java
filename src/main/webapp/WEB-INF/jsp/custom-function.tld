@@ -3,23 +3,23 @@
   PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
   "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
 <taglib
-  xmlns="http://java.sun.com/xml/ns/j2ee"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
   version="2.0"
+  xmlns="http://java.sun.com/xml/ns/j2ee"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
 >
-  <tlib-version>1.0</tlib-version>
-  <short-name>html</short-name>
   <function>
-    <name>contains</name>
     <function-class>se.bth.pulse.utility.JspCustomFunctions</function-class>
     <function-signature>boolean contains(java.util.List,java.lang.Object)
     </function-signature>
+    <name>contains</name>
   </function>
   <function>
-    <name>containsUser</name>
     <function-class>se.bth.pulse.utility.JspCustomFunctions</function-class>
     <function-signature>boolean containsUser(java.util.List, java.lang.Integer)
     </function-signature>
+    <name>containsUser</name>
   </function>
+  <short-name>html</short-name>
+  <tlib-version>1.0</tlib-version>
 </taglib>

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FileUserAdminController {
 
   /**
-   * This method is used to render the file page.
-   * The return string is the name of the view to be rendered.
+   * This method is used to render the file page. The return string is the name of the view to be
+   * rendered.
    *
-   * @param model             - used to pass attributes to the view
-   * @param authentication    - used to get the username and role of the logged-in user
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
    * @return String           - the view to be rendered
    */
   @GetMapping(value = "/admin/users/file")

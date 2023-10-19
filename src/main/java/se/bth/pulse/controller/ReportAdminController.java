@@ -23,11 +23,10 @@ public class ReportAdminController {
 
 
   /**
-   * Renders and views the report admin page.
-   * It uses the report repository to get all the reports.
+   * Renders and views the report admin page. It uses the report repository to get all the reports.
    *
-   * @param model             - used to pass attributes to the view
-   * @param authentication    - used to get the username and role of the logged-in user
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
    * @return String           - the view to be rendered
    */
   @GetMapping("/admin/reports")
@@ -40,16 +39,17 @@ public class ReportAdminController {
   }
 
   /**
-   * Renders a view for viewing a report.
-   * It uses the report repository to get the report with the given id.
+   * Renders a view for viewing a report. It uses the report repository to get the report with the
+   * given id.
    *
-   * @param id              - the id of the report to be viewed
-   * @param model           - used to pass attributes to the view
-   * @param authentication  - used to get the username and role of the logged-in user
+   * @param id             - the id of the report to be viewed
+   * @param model          - used to pass attributes to the view
+   * @param authentication - used to get the username and role of the logged-in user
    * @return String         - the view to be rendered
    */
   @GetMapping("/admin/report/{id}")
-  public String showReport(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+  public String showReport(@PathVariable("id") Integer id, Model model,
+      Authentication authentication) {
     model.addAttribute("username", authentication.getName());
     model.addAttribute("role", authentication.getAuthorities().toString());
     Optional<Report> report = reportRepository.findById(id);

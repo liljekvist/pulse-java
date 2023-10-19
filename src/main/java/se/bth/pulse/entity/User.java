@@ -15,11 +15,9 @@ import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 /**
- * This is the entity class for the table User.
- * This class models the table Users meaning that each instance of this class represents
- * a row in the table.
- * Using this class the table is created.
- * This class also serves as the username and password holder for our Custom UserDetailsService.
+ * This is the entity class for the table User. This class models the table Users meaning that each
+ * instance of this class represents a row in the table. Using this class the table is created. This
+ * class also serves as the username and password holder for our Custom UserDetailsService.
  */
 @Getter
 @Entity(name = "User")

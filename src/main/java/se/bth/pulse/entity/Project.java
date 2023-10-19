@@ -15,14 +15,11 @@ import java.util.List;
 import lombok.Getter;
 
 /**
- * This is the entity class for the table Project.
- * This class models the table Projects meaning that each instance of this class represents
- * a row in the table.
- * Using this class the table is created.
- * This class is used to hold the projects that can be connected to the user.
- * The connection between user and project is a many-to-many relationship.
- * This means that one project can be connected to many users and one user can be connected
- * to many projects.
+ * This is the entity class for the table Project. This class models the table Projects meaning that
+ * each instance of this class represents a row in the table. Using this class the table is created.
+ * This class is used to hold the projects that can be connected to the user. The connection between
+ * user and project is a many-to-many relationship. This means that one project can be connected to
+ * many users and one user can be connected to many projects.
  */
 @Getter
 @Entity(name = "Project")
@@ -30,43 +27,16 @@ import lombok.Getter;
 @JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Project.class)
 public class Project {
 
-  /**
-   * Enum for the report interval.
-   */
-  public enum ReportInterval {
-    DAILY,
-    WEEKLY,
-    BIWEEKLY,
-    MONTHLY;
-
-    public int getHours() {
-      return switch (this) {
-        case DAILY -> 24;
-        case WEEKLY -> 24 * 7;
-        case BIWEEKLY -> 24 * 7 * 2;
-        case MONTHLY -> 24 * 7 * 4;
-        default -> 0;
-      };
-    }
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   private String name;
-
   private String description;
-
   private ReportInterval reportInterval;
-
   private Date startDate;
-
   private Date endDate;
-
   @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
   private List<Report> reports;
-
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   private List<User> users;
 
@@ -100,5 +70,25 @@ public class Project {
 
   public void setReports(List<Report> reports) {
     this.reports = reports;
+  }
+
+  /**
+   * Enum for the report interval.
+   */
+  public enum ReportInterval {
+    DAILY,
+    WEEKLY,
+    BIWEEKLY,
+    MONTHLY;
+
+    public int getHours() {
+      return switch (this) {
+        case DAILY -> 24;
+        case WEEKLY -> 24 * 7;
+        case BIWEEKLY -> 24 * 7 * 2;
+        case MONTHLY -> 24 * 7 * 4;
+        default -> 0;
+      };
+    }
   }
 }

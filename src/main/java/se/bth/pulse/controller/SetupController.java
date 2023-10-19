@@ -20,10 +20,10 @@ public class SetupController {
   }
 
   /**
-   * Serves the setup page to the user if the setup is not done,
-   * otherwise redirects to the home page.
+   * Serves the setup page to the user if the setup is not done, otherwise redirects to the home
+   * page.
    *
-   * @param model     - used to pass attributes to the view
+   * @param model - used to pass attributes to the view
    * @return String   - the view to be rendered
    */
   @GetMapping("/setup")

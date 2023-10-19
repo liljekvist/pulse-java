@@ -13,8 +13,8 @@ import java.util.List;
 import lombok.Getter;
 
 /**
- * This is the entity class for the table Authority.
- * It is used to hold the authorities that can be connected to the role.
+ * This is the entity class for the table Authority. It is used to hold the authorities that can be
+ * connected to the role.
  */
 @Getter
 @Entity(name = "Authority")
@@ -22,14 +22,12 @@ import lombok.Getter;
 @JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Authority {
 
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authorities", cascade = CascadeType.ALL)
+  List<Role> roles;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
   private String name;
-
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authorities", cascade = CascadeType.ALL)
-  List<Role> roles;
 
   public void setId(Integer id) {
     this.id = id;
