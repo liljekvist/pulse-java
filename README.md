@@ -93,6 +93,9 @@ To run the application use the java command like this
 java -jar .\pulse-0.0.1-SNAPSHOT.war
 ```
 
+## First launch
+On first launch you need to setup a admin account. You can do that at /setup. Note you can only do this once and if the admin account is lost the password is not recoverable.
+
 ## For questions
 You can reach me at mibh22@student.bth.se
 
