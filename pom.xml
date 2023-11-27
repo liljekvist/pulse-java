@@ -157,7 +157,7 @@
     <dependency>
       <artifactId>opencsv</artifactId>
       <groupId>com.opencsv</groupId>
-      <version>5.8</version>
+      <version>5.9</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
