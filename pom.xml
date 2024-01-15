@@ -151,7 +151,7 @@
     <dependency>
       <artifactId>tomcat-embed-core</artifactId>
       <groupId>org.apache.tomcat.embed</groupId>
-      <version>10.1.13</version>
+      <version>10.1.18</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
     <dependency>
